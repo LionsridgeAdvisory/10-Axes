@@ -553,23 +553,23 @@
                             <option value="education">Education</option>
                             <option value="global_health">Global Health</option>
                             <option value="economic_development">Economic Development</option>
-                            <option value="climate_environment">Climate & Environment</option>
-                            <option value="human_rights">Human Rights & Justice</option>
-                            <option value="arts_culture">Arts & Culture</option>
-                            <option value="gender_equality">Gender Equality & Women's Empowerment</option>
+                            <option value="climate_environment">Climate &amp; Environment</option>
+                            <option value="human_rights">Human Rights &amp; Justice</option>
+                            <option value="arts_culture">Arts &amp; Culture</option>
+                            <option value="gender_equality">Gender Equality &amp; Women's Empowerment</option>
                             <option value="humanitarian">Humanitarian Relief</option>
-                            <option value="peace_conflict">Peace & Conflict Resolution</option>
-                            <option value="food_agriculture">Food Security & Agriculture</option>
-                            <option value="technology">Technology & Digital Inclusion</option>
-                            <option value="youth_child">Youth & Child Development</option>
-                            <option value="philanthropy_infrastructure">Philanthropy Infrastructure & Capacity</option>
-                            <option value="faith_based">Faith-Based & Spiritual Engagement</option>
-                            <option value="civic_democracy">Civic Engagement & Democracy</option>
-                            <option value="mental_health">Mental Health & Well-Being</option>
-                            <option value="migration_refugees">Migration & Refugees</option>
-                            <option value="aging_longevity">Aging & Longevity</option>
-                            <option value="ai_ethics">Artificial Intelligence & Technology Ethics</option>
-                            <option value="democracy_information">Philanthropy for Democracy & Information Integrity</option>
+                            <option value="peace_conflict">Peace &amp; Conflict Resolution</option>
+                            <option value="food_agriculture">Food Security &amp; Agriculture</option>
+                            <option value="technology">Technology &amp; Digital Inclusion</option>
+                            <option value="youth_child">Youth &amp; Child Development</option>
+                            <option value="philanthropy_infrastructure">Philanthropy Infrastructure &amp; Capacity</option>
+                            <option value="faith_based">Faith-Based &amp; Spiritual Engagement</option>
+                            <option value="civic_democracy">Civic Engagement &amp; Democracy</option>
+                            <option value="mental_health">Mental Health &amp; Well-Being</option>
+                            <option value="migration_refugees">Migration &amp; Refugees</option>
+                            <option value="aging_longevity">Aging &amp; Longevity</option>
+                            <option value="ai_ethics">Artificial Intelligence &amp; Technology Ethics</option>
+                            <option value="democracy_information">Philanthropy for Democracy &amp; Information Integrity</option>
                         </select>
                     </div>
                 </div>
@@ -716,21 +716,8 @@
                         Operators: <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>
                     </p>
                     
-                    <textarea id="rules-input" placeholder="Paste rules here...">warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.
-```
-
-error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.
-warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.
-error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.
-warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.
-warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they’re still discovering what works.
-warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.
-warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.
-warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.
-warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records—not emergent organizations.
-error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments.</textarea>
-
-```
+                    <textarea id="rules-input"></textarea>
+                    
                     <div class="rules-actions">
                         <button class="btn-primary" onclick="loadRules()">Apply Rules</button>
                         <button class="btn-secondary" onclick="resetRules()">Reset to Default</button>
@@ -776,75 +763,77 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
 </div>
 
 <script>
-    // Default rules
-    const defaultRules = `warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.
-```
+    // Default rules stored as an array to avoid template literal encoding issues
+    var defaultRulesArray = [
+        "warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.",
+        "error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.",
+        "warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.",
+        "error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.",
+        "warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.",
+        "warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they are still discovering what works.",
+        "warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.",
+        "warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.",
+        "warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.",
+        "warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records, not emergent organizations.",
+        "error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments."
+    ];
 
-error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.
-warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.
-error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.
-warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.
-warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they’re still discovering what works.
-warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.
-warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.
-warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.
-warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records—not emergent organizations.
-error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments.`;
-
-```
-    let currentRules = [];
+    var defaultRules = defaultRulesArray.join("\n");
+    var currentRules = [];
 
     // Parse amount input to number
     function parseAmount(input) {
         if (!input) return 0;
-        let cleaned = input.replace(/[,$\s]/g, '').toUpperCase();
-        let multiplier = 1;
-        if (cleaned.endsWith('K')) {
+        var cleaned = input.replace(/[,$\s]/g, "").toUpperCase();
+        var multiplier = 1;
+        if (cleaned.charAt(cleaned.length - 1) === "K") {
             multiplier = 1000;
-            cleaned = cleaned.slice(0, -1);
-        } else if (cleaned.endsWith('M')) {
+            cleaned = cleaned.substring(0, cleaned.length - 1);
+        } else if (cleaned.charAt(cleaned.length - 1) === "M") {
             multiplier = 1000000;
-            cleaned = cleaned.slice(0, -1);
-        } else if (cleaned.endsWith('B')) {
+            cleaned = cleaned.substring(0, cleaned.length - 1);
+        } else if (cleaned.charAt(cleaned.length - 1) === "B") {
             multiplier = 1000000000;
-            cleaned = cleaned.slice(0, -1);
+            cleaned = cleaned.substring(0, cleaned.length - 1);
         }
-        const num = parseFloat(cleaned);
+        var num = parseFloat(cleaned);
         return isNaN(num) ? 0 : num * multiplier;
     }
 
     // Get current values
     function getCurrentValues() {
         return {
-            amount: parseAmount(document.getElementById('amount').value),
-            focus: document.getElementById('focus').value,
-            axis1: parseInt(document.getElementById('axis1').value),
-            axis2: parseInt(document.getElementById('axis2').value),
-            axis3: parseInt(document.getElementById('axis3').value),
-            axis4: parseInt(document.getElementById('axis4').value),
-            axis5: parseInt(document.getElementById('axis5').value),
-            axis6: parseInt(document.getElementById('axis6').value),
-            axis7: parseInt(document.getElementById('axis7').value),
-            axis8: parseInt(document.getElementById('axis8').value),
-            axis9: parseInt(document.getElementById('axis9').value),
-            axis10: parseInt(document.getElementById('axis10').value)
+            amount: parseAmount(document.getElementById("amount").value),
+            focus: document.getElementById("focus").value,
+            axis1: parseInt(document.getElementById("axis1").value),
+            axis2: parseInt(document.getElementById("axis2").value),
+            axis3: parseInt(document.getElementById("axis3").value),
+            axis4: parseInt(document.getElementById("axis4").value),
+            axis5: parseInt(document.getElementById("axis5").value),
+            axis6: parseInt(document.getElementById("axis6").value),
+            axis7: parseInt(document.getElementById("axis7").value),
+            axis8: parseInt(document.getElementById("axis8").value),
+            axis9: parseInt(document.getElementById("axis9").value),
+            axis10: parseInt(document.getElementById("axis10").value)
         };
     }
 
     // Parse rules from text
     function parseRules(text) {
-        const rules = [];
-        const lines = text.trim().split('\n');
+        var rules = [];
+        var lines = text.trim().split("\n");
         
-        for (const line of lines) {
-            if (!line.trim() || line.startsWith('//') || line.startsWith('#')) continue;
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            if (!line.trim() || line.indexOf("//") === 0 || line.indexOf("#") === 0) continue;
             
-            const parts = line.split('|').map(p => p.trim());
+            var parts = line.split("|");
             if (parts.length >= 3) {
+                var messageParts = parts.slice(2);
                 rules.push({
-                    severity: parts[0].toLowerCase(),
-                    condition: parts[1],
-                    message: parts.slice(2).join('|').trim()
+                    severity: parts[0].trim().toLowerCase(),
+                    condition: parts[1].trim(),
+                    message: messageParts.join("|").trim()
                 });
             }
         }
@@ -854,15 +843,16 @@ error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is
     // Evaluate a condition string
     function evaluateCondition(condition, values) {
         try {
-            // Split by OR first, then AND
-            const orParts = condition.split(/\s+OR\s+/i);
+            // Split by OR first (case insensitive)
+            var orParts = condition.split(/\s+OR\s+/i);
             
-            for (const orPart of orParts) {
-                const andParts = orPart.split(/\s+AND\s+/i);
-                let allAndTrue = true;
+            for (var i = 0; i < orParts.length; i++) {
+                var orPart = orParts[i];
+                var andParts = orPart.split(/\s+AND\s+/i);
+                var allAndTrue = true;
                 
-                for (const part of andParts) {
-                    if (!evaluateSingleCondition(part.trim(), values)) {
+                for (var j = 0; j < andParts.length; j++) {
+                    if (!evaluateSingleCondition(andParts[j].trim(), values)) {
                         allAndTrue = false;
                         break;
                     }
@@ -872,53 +862,56 @@ error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is
             }
             return false;
         } catch (e) {
-            console.error('Error evaluating condition:', condition, e);
+            console.error("Error evaluating condition:", condition, e);
             return false;
         }
     }
 
     function evaluateSingleCondition(condition, values) {
         // Match patterns like "amount < 500000" or "focus = climate_environment" or "axis1 >= 4"
-        const match = condition.match(/^(\w+)\s*(>=|<=|!=|>|<|=)\s*(.+)$/);
+        var match = condition.match(/^(\w+)\s*(>=|<=|!=|>|<|=)\s*(.+)$/);
         if (!match) return false;
         
-        const [, variable, operator, rawValue] = match;
-        const leftValue = values[variable];
+        var variable = match[1];
+        var operator = match[2];
+        var rawValue = match[3];
+        var leftValue = values[variable];
         
         if (leftValue === undefined) return false;
         
-        let rightValue = rawValue.trim();
+        var rightValue = rawValue.trim();
         
         // If comparing with a numeric field, parse as number
-        if (typeof leftValue === 'number') {
+        if (typeof leftValue === "number") {
             rightValue = parseFloat(rightValue);
         }
         
         switch (operator) {
-            case '>': return leftValue > rightValue;
-            case '<': return leftValue < rightValue;
-            case '>=': return leftValue >= rightValue;
-            case '<=': return leftValue <= rightValue;
-            case '=': return leftValue == rightValue;
-            case '!=': return leftValue != rightValue;
+            case ">": return leftValue > rightValue;
+            case "<": return leftValue < rightValue;
+            case ">=": return leftValue >= rightValue;
+            case "<=": return leftValue <= rightValue;
+            case "=": return leftValue == rightValue;
+            case "!=": return leftValue != rightValue;
             default: return false;
         }
     }
 
     // Check all rules and return triggered ones
     function checkRules(values) {
-        const triggered = [];
+        var triggered = [];
         
-        for (const rule of currentRules) {
+        for (var i = 0; i < currentRules.length; i++) {
+            var rule = currentRules[i];
             if (evaluateCondition(rule.condition, values)) {
                 triggered.push(rule);
             }
         }
         
         // Sort: errors first, then warnings
-        triggered.sort((a, b) => {
-            if (a.severity === 'error' && b.severity !== 'error') return -1;
-            if (a.severity !== 'error' && b.severity === 'error') return 1;
+        triggered.sort(function(a, b) {
+            if (a.severity === "error" && b.severity !== "error") return -1;
+            if (a.severity !== "error" && b.severity === "error") return 1;
             return 0;
         });
         
@@ -927,26 +920,27 @@ error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is
 
     // Update feedback display
     function updateFeedback() {
-        const values = getCurrentValues();
-        const triggered = checkRules(values);
-        const container = document.getElementById('feedback-container');
+        var values = getCurrentValues();
+        var triggered = checkRules(values);
+        var container = document.getElementById("feedback-container");
         
         if (triggered.length === 0) {
             container.innerHTML = '<div class="feedback-empty">No strategic tensions detected with current selections. Adjust inputs to explore tradeoffs.</div>';
             return;
         }
         
-        let html = '<div class="feedback-list">';
-        for (const rule of triggered) {
-            const icon = rule.severity === 'error' 
+        var html = '<div class="feedback-list">';
+        for (var i = 0; i < triggered.length; i++) {
+            var rule = triggered[i];
+            var icon = rule.severity === "error" 
                 ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
                 : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-            const label = rule.severity === 'error' ? 'Incompatibility' : 'Tension';
+            var label = rule.severity === "error" ? "Incompatibility" : "Tension";
             
-            html += `<div class="feedback-item ${rule.severity}">
-                <div class="feedback-item-header">${icon} ${label}</div>
-                ${rule.message}
-            </div>`;
+            html += '<div class="feedback-item ' + rule.severity + '">';
+            html += '<div class="feedback-item-header">' + icon + ' ' + label + '</div>';
+            html += rule.message;
+            html += '</div>';
         }
         html += '</div>';
         container.innerHTML = html;
@@ -954,75 +948,83 @@ error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is
 
     // Update slider visual and value display
     function updateSlider(sliderId) {
-        const slider = document.getElementById(sliderId);
-        const valueDisplay = document.getElementById(sliderId + '-value');
-        const value = slider.value;
-        const min = slider.min;
-        const max = slider.max;
-        const progress = ((value - min) / (max - min)) * 100;
+        var slider = document.getElementById(sliderId);
+        var valueDisplay = document.getElementById(sliderId + "-value");
+        var value = slider.value;
+        var min = slider.min;
+        var max = slider.max;
+        var progress = ((value - min) / (max - min)) * 100;
         
-        slider.style.setProperty('--progress', progress + '%');
+        slider.style.setProperty("--progress", progress + "%");
         valueDisplay.textContent = value;
     }
 
     // Initialize all sliders
     function initSliders() {
-        for (let i = 1; i <= 10; i++) {
-            const sliderId = 'axis' + i;
-            const slider = document.getElementById(sliderId);
+        for (var i = 1; i <= 10; i++) {
+            var sliderId = "axis" + i;
+            var slider = document.getElementById(sliderId);
             
             updateSlider(sliderId);
             
-            slider.addEventListener('input', () => {
-                updateSlider(sliderId);
-                updateFeedback();
-            });
+            (function(id) {
+                document.getElementById(id).addEventListener("input", function() {
+                    updateSlider(id);
+                    updateFeedback();
+                });
+            })(sliderId);
         }
     }
 
     // Toggle rules section
     function toggleRules() {
-        const content = document.getElementById('rules-content');
-        const icon = document.getElementById('toggle-icon');
-        content.classList.toggle('open');
-        icon.classList.toggle('open');
+        var content = document.getElementById("rules-content");
+        var icon = document.getElementById("toggle-icon");
+        if (content.className.indexOf("open") >= 0) {
+            content.className = "rules-content";
+            icon.className = "toggle-icon";
+        } else {
+            content.className = "rules-content open";
+            icon.className = "toggle-icon open";
+        }
     }
 
     // Load rules from textarea
     function loadRules() {
-        const input = document.getElementById('rules-input').value;
-        const status = document.getElementById('rules-status');
+        var input = document.getElementById("rules-input").value;
+        var status = document.getElementById("rules-status");
         
         try {
             currentRules = parseRules(input);
-            status.textContent = `✓ Loaded ${currentRules.length} rules`;
-            status.className = 'rules-status success';
+            status.textContent = "Loaded " + currentRules.length + " rules";
+            status.className = "rules-status success";
             updateFeedback();
             
-            setTimeout(() => {
-                status.textContent = '';
+            setTimeout(function() {
+                status.textContent = "";
             }, 3000);
         } catch (e) {
-            status.textContent = 'Error parsing rules';
-            status.className = 'rules-status error';
+            status.textContent = "Error parsing rules";
+            status.className = "rules-status error";
         }
     }
 
     // Reset to default rules
     function resetRules() {
-        document.getElementById('rules-input').value = defaultRules;
+        document.getElementById("rules-input").value = defaultRules;
         loadRules();
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize on page load
+    window.onload = function() {
+        document.getElementById("rules-input").value = defaultRules;
         initSliders();
         loadRules();
         
         // Add listeners for amount and focus
-        document.getElementById('amount').addEventListener('input', updateFeedback);
-        document.getElementById('focus').addEventListener('change', updateFeedback);
-    });
+        document.getElementById("amount").addEventListener("input", updateFeedback);
+        document.getElementById("focus").addEventListener("change", updateFeedback);
+    };
 </script>
 ```
 
