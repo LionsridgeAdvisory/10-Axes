@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philanthropic Strategy Alignment Tool | Lionsridge Advisory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #2D5A47;
+            --forest-light: #3D7A5F;
+            --forest-pale: #E8F0EC;
+            --sand: #F5F3EF;
+            --warm-white: #FAFAF8;
+            --charcoal: #2C2C2C;
+            --slate: #5A5A5A;
+            --warning-yellow: #D4A017;
+            --warning-yellow-bg: #FDF8E8;
+            --warning-yellow-border: #E8C547;
+            --error-red: #B84444;
+            --error-red-bg: #FDEEEE;
+            --error-red-border: #E07070;
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+        }
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Source Sans 3', -apple-system, sans-serif;
+        background: var(--sand);
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    header {
+        text-align: center;
+        padding: 3rem 0 2rem;
+        border-bottom: 1px solid rgba(45, 90, 71, 0.15);
+        margin-bottom: 2.5rem;
+    }
+
+    .logo {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.75rem;
+        font-weight: 500;
+        color: var(--forest);
+        letter-spacing: 0.02em;
+        margin-bottom: 0.5rem;
+    }
+
+    .logo span {
+        font-weight: 400;
+        font-size: 0.9rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        display: block;
+        margin-top: 0.25rem;
+        color: var(--slate);
+    }
+
+    h1 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 2rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        margin-top: 1.5rem;
+    }
+
+    .intro {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        max-width: 680px;
+        margin: 1rem auto 0;
+        font-weight: 300;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 2.5rem;
+        align-items: start;
+    }
+
+    @media (max-width: 1000px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .input-section {
+        background: var(--warm-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .section-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.35rem;
+        font-weight: 500;
+        color: var(--forest);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--forest-pale);
+    }
+
+    .field-group {
+        margin-bottom: 1.75rem;
+    }
+
+    .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+        .field-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-family: inherit;
+        border: 1px solid #D8D8D8;
+        border-radius: 6px;
+        background: white;
+        color: var(--text-primary);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+        outline: none;
+        border-color: var(--forest);
+        box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1);
+    }
+
+    input[type="text"]::placeholder {
+        color: #A0A0A0;
+    }
+
+    .amount-hint {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 0.35rem;
+    }
+
+    .axes-section {
+        margin-top: 2rem;
+    }
+
+    .axis-item {
+        margin-bottom: 1.75rem;
+        padding-bottom: 1.75rem;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .axis-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .axis-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.5rem;
+    }
+
+    .axis-name {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+    }
+
+    .axis-value {
+        font-size: 0.85rem;
+        color: var(--forest);
+        font-weight: 600;
+        min-width: 20px;
+        text-align: right;
+    }
+
+    .axis-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.6rem;
+    }
+
+    .axis-labels span {
+        max-width: 45%;
+    }
+
+    .axis-labels .left {
+        text-align: left;
+    }
+
+    .axis-labels .right {
+        text-align: right;
+    }
+
+    input[type="range"] {
+        width: 100%;
+        height: 6px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: linear-gradient(to right, var(--forest) 0%, var(--forest) var(--progress), #E0E0E0 var(--progress), #E0E0E0 100%);
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        background: var(--forest);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        background: var(--forest);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    /* Feedback Panel */
+    .feedback-panel {
+        position: sticky;
+        top: 2rem;
+    }
+
+    .feedback-card {
+        background: var(--warm-white);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .feedback-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--forest);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .feedback-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .feedback-empty {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        padding: 1rem;
+        text-align: center;
+        background: var(--forest-pale);
+        border-radius: 8px;
+    }
+
+    .feedback-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .feedback-item {
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .feedback-item.warning {
+        background: var(--warning-yellow-bg);
+        border: 1px solid var(--warning-yellow-border);
+        color: #7A5A00;
+    }
+
+    .feedback-item.error {
+        background: var(--error-red-bg);
+        border: 1px solid var(--error-red-border);
+        color: #8B3030;
+    }
+
+    .feedback-item-header {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .feedback-item.warning .feedback-item-header {
+        color: var(--warning-yellow);
+    }
+
+    .feedback-item.error .feedback-item-header {
+        color: var(--error-red);
+    }
+
+    /* Rules Configuration */
+    .rules-section {
+        margin-top: 2.5rem;
+        background: var(--warm-white);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .rules-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .rules-toggle:hover .section-title {
+        color: var(--forest-light);
+    }
+
+    .toggle-icon {
+        width: 24px;
+        height: 24px;
+        color: var(--forest);
+        transition: transform 0.3s;
+    }
+
+    .toggle-icon.open {
+        transform: rotate(180deg);
+    }
+
+    .rules-content {
+        display: none;
+        margin-top: 1.5rem;
+    }
+
+    .rules-content.open {
+        display: block;
+    }
+
+    .rules-instructions {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .rules-instructions code {
+        background: var(--forest-pale);
+        padding: 0.15rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        color: var(--forest);
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 200px;
+        padding: 1rem;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        border: 1px solid #D8D8D8;
+        border-radius: 6px;
+        background: white;
+        color: var(--text-primary);
+        resize: vertical;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: var(--forest);
+        box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1);
+    }
+
+    .rules-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    button {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.9rem;
+        font-family: inherit;
+        font-weight: 500;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: var(--forest);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--forest-light);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--forest);
+        border: 1px solid var(--forest);
+    }
+
+    .btn-secondary:hover {
+        background: var(--forest-pale);
+    }
+
+    .rules-status {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .rules-status.success {
+        color: var(--forest);
+    }
+
+    .rules-status.error {
+        color: var(--error-red);
+    }
+
+    /* Template section */
+    .template-section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--forest-pale);
+    }
+
+    .template-title {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+    }
+
+    .template-box {
+        background: var(--sand);
+        border-radius: 6px;
+        padding: 1rem;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        font-size: 0.8rem;
+        overflow-x: auto;
+        white-space: pre;
+        line-height: 1.6;
+        color: var(--text-secondary);
+    }
+
+    footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-top: 3rem;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                Lionsridge
+                <span>Advisory</span>
+            </div>
+            <h1>Philanthropic Strategy Alignment Tool</h1>
+            <p class="intro">Explore the inherent tradeoffs in philanthropic strategy. This tool surfaces tensions between your giving capacity, focus areas, and organizational preferences.</p>
+        </header>
+
+```
+    <div class="main-grid">
+        <div class="input-column">
+            <div class="input-section">
+                <h2 class="section-title">Your Philanthropic Profile</h2>
+                
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="amount">Planned Annual Giving</label>
+                        <input type="text" id="amount" placeholder="e.g., $500,000 or 2M" />
+                        <div class="amount-hint">Enter amount with $ and K/M if desired</div>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="focus">Primary Focus Area</label>
+                        <select id="focus">
+                            <option value="">Select a focus area...</option>
+                            <option value="education">Education</option>
+                            <option value="global_health">Global Health</option>
+                            <option value="economic_development">Economic Development</option>
+                            <option value="climate_environment">Climate & Environment</option>
+                            <option value="human_rights">Human Rights & Justice</option>
+                            <option value="arts_culture">Arts & Culture</option>
+                            <option value="gender_equality">Gender Equality & Women's Empowerment</option>
+                            <option value="humanitarian">Humanitarian Relief</option>
+                            <option value="peace_conflict">Peace & Conflict Resolution</option>
+                            <option value="food_agriculture">Food Security & Agriculture</option>
+                            <option value="technology">Technology & Digital Inclusion</option>
+                            <option value="youth_child">Youth & Child Development</option>
+                            <option value="philanthropy_infrastructure">Philanthropy Infrastructure & Capacity</option>
+                            <option value="faith_based">Faith-Based & Spiritual Engagement</option>
+                            <option value="civic_democracy">Civic Engagement & Democracy</option>
+                            <option value="mental_health">Mental Health & Well-Being</option>
+                            <option value="migration_refugees">Migration & Refugees</option>
+                            <option value="aging_longevity">Aging & Longevity</option>
+                            <option value="ai_ethics">Artificial Intelligence & Technology Ethics</option>
+                            <option value="democracy_information">Philanthropy for Democracy & Information Integrity</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="axes-section">
+                    <h2 class="section-title">10 Axes of NGOs</h2>
+                    
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">1. Geographic Scope</span>
+                            <span class="axis-value" id="axis1-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Local</span>
+                            <span class="right">Global</span>
+                        </div>
+                        <input type="range" id="axis1" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">2. Capital Approach</span>
+                            <span class="axis-value" id="axis2-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Grants</span>
+                            <span class="right">Impact Investing</span>
+                        </div>
+                        <input type="range" id="axis2" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">3. Time Horizon</span>
+                            <span class="axis-value" id="axis3-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Impact per Dollar Today</span>
+                            <span class="right">Systemic Change in Future</span>
+                        </div>
+                        <input type="range" id="axis3" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">4. Impact Model</span>
+                            <span class="axis-value" id="axis4-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Direct Impact</span>
+                            <span class="right">Movement / Field-Building</span>
+                        </div>
+                        <input type="range" id="axis4" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">5. Organizational Culture</span>
+                            <span class="axis-value" id="axis5-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Grassroots-Led</span>
+                            <span class="right">Professionally Managed</span>
+                        </div>
+                        <input type="range" id="axis5" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">6. Organizational Maturity</span>
+                            <span class="axis-value" id="axis6-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Emergent Organization</span>
+                            <span class="right">Established Actor</span>
+                        </div>
+                        <input type="range" id="axis6" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">7. Strategic Orientation</span>
+                            <span class="axis-value" id="axis7-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Innovation-Focused</span>
+                            <span class="right">Execution-Focused</span>
+                        </div>
+                        <input type="range" id="axis7" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">8. Institutional Posture</span>
+                            <span class="axis-value" id="axis8-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Institutionally Aligned</span>
+                            <span class="right">Disruptive</span>
+                        </div>
+                        <input type="range" id="axis8" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">9. Political Stance</span>
+                            <span class="axis-value" id="axis9-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Apolitical</span>
+                            <span class="right">Political</span>
+                        </div>
+                        <input type="range" id="axis9" min="1" max="5" value="3" />
+                    </div>
+
+                    <div class="axis-item">
+                        <div class="axis-header">
+                            <span class="axis-name">10. Faith Orientation</span>
+                            <span class="axis-value" id="axis10-value">3</span>
+                        </div>
+                        <div class="axis-labels">
+                            <span class="left">Religious</span>
+                            <span class="right">Secular</span>
+                        </div>
+                        <input type="range" id="axis10" min="1" max="5" value="3" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <div class="rules-toggle" onclick="toggleRules()">
+                    <h2 class="section-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Rules Configuration</h2>
+                    <svg class="toggle-icon" id="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                
+                <div class="rules-content" id="rules-content">
+                    <p class="rules-instructions">
+                        Paste rules from your spreadsheet below. Each line should follow this format:<br>
+                        <code>SEVERITY | CONDITION | MESSAGE</code><br><br>
+                        Severity: <code>warning</code> (yellow) or <code>error</code> (red)<br>
+                        Variables: <code>amount</code>, <code>focus</code>, <code>axis1</code> through <code>axis10</code><br>
+                        Operators: <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>
+                    </p>
+                    
+                    <textarea id="rules-input" placeholder="Paste rules here...">warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.
+```
+
+error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.
+warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.
+error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.
+warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.
+warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they’re still discovering what works.
+warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.
+warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.
+warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.
+warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records—not emergent organizations.
+error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments.</textarea>
+
+```
+                    <div class="rules-actions">
+                        <button class="btn-primary" onclick="loadRules()">Apply Rules</button>
+                        <button class="btn-secondary" onclick="resetRules()">Reset to Default</button>
+                        <span class="rules-status" id="rules-status"></span>
+                    </div>
+
+                    <div class="template-section">
+                        <div class="template-title">Spreadsheet Template Format</div>
+                        <div class="template-box">Column A: Severity    Column B: Condition                           Column C: Message
+```
+
+warning               amount < 500000 AND axis1 >= 4                Global philanthropy typically requires…
+error                 amount < 250000 AND axis1 = 5                 Fully global work is extremely difficult…
+warning               focus = climate_environment AND axis3 <= 2   Climate work with short time horizons…</div>
+</div>
+</div>
+</div>
+</div>
+
+```
+        <div class="feedback-panel">
+            <div class="feedback-card">
+                <h3 class="feedback-title">
+                    <svg class="feedback-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Strategic Feedback
+                </h3>
+                <div id="feedback-container">
+                    <div class="feedback-empty">
+                        Adjust the sliders and inputs above to see strategic tensions and recommendations.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Lionsridge Advisory. Philanthropic Strategy Alignment Tool.
+    </footer>
+</div>
+
+<script>
+    // Default rules
+    const defaultRules = `warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.
+```
+
+error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.
+warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.
+error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.
+warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.
+warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they’re still discovering what works.
+warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.
+warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.
+warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.
+warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records—not emergent organizations.
+error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments.`;
+
+```
+    let currentRules = [];
+
+    // Parse amount input to number
+    function parseAmount(input) {
+        if (!input) return 0;
+        let cleaned = input.replace(/[,$\s]/g, '').toUpperCase();
+        let multiplier = 1;
+        if (cleaned.endsWith('K')) {
+            multiplier = 1000;
+            cleaned = cleaned.slice(0, -1);
+        } else if (cleaned.endsWith('M')) {
+            multiplier = 1000000;
+            cleaned = cleaned.slice(0, -1);
+        } else if (cleaned.endsWith('B')) {
+            multiplier = 1000000000;
+            cleaned = cleaned.slice(0, -1);
+        }
+        const num = parseFloat(cleaned);
+        return isNaN(num) ? 0 : num * multiplier;
+    }
+
+    // Get current values
+    function getCurrentValues() {
+        return {
+            amount: parseAmount(document.getElementById('amount').value),
+            focus: document.getElementById('focus').value,
+            axis1: parseInt(document.getElementById('axis1').value),
+            axis2: parseInt(document.getElementById('axis2').value),
+            axis3: parseInt(document.getElementById('axis3').value),
+            axis4: parseInt(document.getElementById('axis4').value),
+            axis5: parseInt(document.getElementById('axis5').value),
+            axis6: parseInt(document.getElementById('axis6').value),
+            axis7: parseInt(document.getElementById('axis7').value),
+            axis8: parseInt(document.getElementById('axis8').value),
+            axis9: parseInt(document.getElementById('axis9').value),
+            axis10: parseInt(document.getElementById('axis10').value)
+        };
+    }
+
+    // Parse rules from text
+    function parseRules(text) {
+        const rules = [];
+        const lines = text.trim().split('\n');
+        
+        for (const line of lines) {
+            if (!line.trim() || line.startsWith('//') || line.startsWith('#')) continue;
+            
+            const parts = line.split('|').map(p => p.trim());
+            if (parts.length >= 3) {
+                rules.push({
+                    severity: parts[0].toLowerCase(),
+                    condition: parts[1],
+                    message: parts.slice(2).join('|').trim()
+                });
+            }
+        }
+        return rules;
+    }
+
+    // Evaluate a condition string
+    function evaluateCondition(condition, values) {
+        try {
+            // Split by OR first, then AND
+            const orParts = condition.split(/\s+OR\s+/i);
+            
+            for (const orPart of orParts) {
+                const andParts = orPart.split(/\s+AND\s+/i);
+                let allAndTrue = true;
+                
+                for (const part of andParts) {
+                    if (!evaluateSingleCondition(part.trim(), values)) {
+                        allAndTrue = false;
+                        break;
+                    }
+                }
+                
+                if (allAndTrue) return true;
+            }
+            return false;
+        } catch (e) {
+            console.error('Error evaluating condition:', condition, e);
+            return false;
+        }
+    }
+
+    function evaluateSingleCondition(condition, values) {
+        // Match patterns like "amount < 500000" or "focus = climate_environment" or "axis1 >= 4"
+        const match = condition.match(/^(\w+)\s*(>=|<=|!=|>|<|=)\s*(.+)$/);
+        if (!match) return false;
+        
+        const [, variable, operator, rawValue] = match;
+        const leftValue = values[variable];
+        
+        if (leftValue === undefined) return false;
+        
+        let rightValue = rawValue.trim();
+        
+        // If comparing with a numeric field, parse as number
+        if (typeof leftValue === 'number') {
+            rightValue = parseFloat(rightValue);
+        }
+        
+        switch (operator) {
+            case '>': return leftValue > rightValue;
+            case '<': return leftValue < rightValue;
+            case '>=': return leftValue >= rightValue;
+            case '<=': return leftValue <= rightValue;
+            case '=': return leftValue == rightValue;
+            case '!=': return leftValue != rightValue;
+            default: return false;
+        }
+    }
+
+    // Check all rules and return triggered ones
+    function checkRules(values) {
+        const triggered = [];
+        
+        for (const rule of currentRules) {
+            if (evaluateCondition(rule.condition, values)) {
+                triggered.push(rule);
+            }
+        }
+        
+        // Sort: errors first, then warnings
+        triggered.sort((a, b) => {
+            if (a.severity === 'error' && b.severity !== 'error') return -1;
+            if (a.severity !== 'error' && b.severity === 'error') return 1;
+            return 0;
+        });
+        
+        return triggered;
+    }
+
+    // Update feedback display
+    function updateFeedback() {
+        const values = getCurrentValues();
+        const triggered = checkRules(values);
+        const container = document.getElementById('feedback-container');
+        
+        if (triggered.length === 0) {
+            container.innerHTML = '<div class="feedback-empty">No strategic tensions detected with current selections. Adjust inputs to explore tradeoffs.</div>';
+            return;
+        }
+        
+        let html = '<div class="feedback-list">';
+        for (const rule of triggered) {
+            const icon = rule.severity === 'error' 
+                ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+                : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+            const label = rule.severity === 'error' ? 'Incompatibility' : 'Tension';
+            
+            html += `<div class="feedback-item ${rule.severity}">
+                <div class="feedback-item-header">${icon} ${label}</div>
+                ${rule.message}
+            </div>`;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // Update slider visual and value display
+    function updateSlider(sliderId) {
+        const slider = document.getElementById(sliderId);
+        const valueDisplay = document.getElementById(sliderId + '-value');
+        const value = slider.value;
+        const min = slider.min;
+        const max = slider.max;
+        const progress = ((value - min) / (max - min)) * 100;
+        
+        slider.style.setProperty('--progress', progress + '%');
+        valueDisplay.textContent = value;
+    }
+
+    // Initialize all sliders
+    function initSliders() {
+        for (let i = 1; i <= 10; i++) {
+            const sliderId = 'axis' + i;
+            const slider = document.getElementById(sliderId);
+            
+            updateSlider(sliderId);
+            
+            slider.addEventListener('input', () => {
+                updateSlider(sliderId);
+                updateFeedback();
+            });
+        }
+    }
+
+    // Toggle rules section
+    function toggleRules() {
+        const content = document.getElementById('rules-content');
+        const icon = document.getElementById('toggle-icon');
+        content.classList.toggle('open');
+        icon.classList.toggle('open');
+    }
+
+    // Load rules from textarea
+    function loadRules() {
+        const input = document.getElementById('rules-input').value;
+        const status = document.getElementById('rules-status');
+        
+        try {
+            currentRules = parseRules(input);
+            status.textContent = `✓ Loaded ${currentRules.length} rules`;
+            status.className = 'rules-status success';
+            updateFeedback();
+            
+            setTimeout(() => {
+                status.textContent = '';
+            }, 3000);
+        } catch (e) {
+            status.textContent = 'Error parsing rules';
+            status.className = 'rules-status error';
+        }
+    }
+
+    // Reset to default rules
+    function resetRules() {
+        document.getElementById('rules-input').value = defaultRules;
+        loadRules();
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        initSliders();
+        loadRules();
+        
+        // Add listeners for amount and focus
+        document.getElementById('amount').addEventListener('input', updateFeedback);
+        document.getElementById('focus').addEventListener('change', updateFeedback);
+    });
+</script>
+```
+
+</body>
+</html>
