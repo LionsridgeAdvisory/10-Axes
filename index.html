@@ -168,10 +168,26 @@
         color: #A0A0A0;
     }
 
+    input[type="text"].input-error {
+        border-color: var(--error-red);
+        box-shadow: 0 0 0 3px rgba(184, 68, 68, 0.1);
+    }
+
     .amount-hint {
         font-size: 0.8rem;
         color: var(--text-secondary);
         margin-top: 0.35rem;
+    }
+
+    .amount-error {
+        font-size: 0.85rem;
+        color: var(--error-red);
+        margin-top: 0.35rem;
+        display: none;
+    }
+
+    .amount-error.visible {
+        display: block;
     }
 
     .axes-section {
@@ -268,6 +284,37 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
+    /* Inline warnings below sliders */
+    .axis-inline-warnings {
+        margin-top: 0.6rem;
+    }
+
+    .inline-warning {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        margin-top: 0.4rem;
+        animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .inline-warning.warning {
+        background: var(--warning-yellow-bg);
+        border-left: 3px solid var(--warning-yellow);
+        color: #7A5A00;
+    }
+
+    .inline-warning.error {
+        background: var(--error-red-bg);
+        border-left: 3px solid var(--error-red);
+        color: #8B3030;
+    }
+
     /* Feedback Panel */
     .feedback-panel {
         position: sticky;
@@ -310,6 +357,8 @@
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
+        max-height: 70vh;
+        overflow-y: auto;
     }
 
     .feedback-item {
@@ -543,7 +592,8 @@
                     <div class="field-group">
                         <label for="amount">Planned Annual Giving</label>
                         <input type="text" id="amount" placeholder="e.g., $500,000 or 2M" />
-                        <div class="amount-hint">Enter amount with $ and K/M if desired</div>
+                        <div class="amount-hint">Minimum $500,000. Enter with $ and K/M if desired.</div>
+                        <div class="amount-error" id="amount-error">This tool is designed for donors giving $500,000 or more annually. Please enter an amount of at least $500K.</div>
                     </div>
                     
                     <div class="field-group">
@@ -577,7 +627,7 @@
                 <div class="axes-section">
                     <h2 class="section-title">10 Axes of NGOs</h2>
                     
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis1">
                         <div class="axis-header">
                             <span class="axis-name">1. Geographic Scope</span>
                             <span class="axis-value" id="axis1-value">3</span>
@@ -587,9 +637,10 @@
                             <span class="right">Global</span>
                         </div>
                         <input type="range" id="axis1" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis1-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis2">
                         <div class="axis-header">
                             <span class="axis-name">2. Capital Approach</span>
                             <span class="axis-value" id="axis2-value">3</span>
@@ -599,9 +650,10 @@
                             <span class="right">Impact Investing</span>
                         </div>
                         <input type="range" id="axis2" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis2-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis3">
                         <div class="axis-header">
                             <span class="axis-name">3. Time Horizon</span>
                             <span class="axis-value" id="axis3-value">3</span>
@@ -611,21 +663,23 @@
                             <span class="right">Systemic Change in Future</span>
                         </div>
                         <input type="range" id="axis3" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis3-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis4">
                         <div class="axis-header">
                             <span class="axis-name">4. Impact Model</span>
                             <span class="axis-value" id="axis4-value">3</span>
                         </div>
                         <div class="axis-labels">
-                            <span class="left">Direct Impact</span>
+                            <span class="left">Direct Action</span>
                             <span class="right">Movement / Field-Building</span>
                         </div>
                         <input type="range" id="axis4" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis4-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis5">
                         <div class="axis-header">
                             <span class="axis-name">5. Organizational Culture</span>
                             <span class="axis-value" id="axis5-value">3</span>
@@ -635,9 +689,10 @@
                             <span class="right">Professionally Managed</span>
                         </div>
                         <input type="range" id="axis5" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis5-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis6">
                         <div class="axis-header">
                             <span class="axis-name">6. Organizational Maturity</span>
                             <span class="axis-value" id="axis6-value">3</span>
@@ -647,9 +702,10 @@
                             <span class="right">Established Actor</span>
                         </div>
                         <input type="range" id="axis6" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis6-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis7">
                         <div class="axis-header">
                             <span class="axis-name">7. Strategic Orientation</span>
                             <span class="axis-value" id="axis7-value">3</span>
@@ -659,9 +715,10 @@
                             <span class="right">Execution-Focused</span>
                         </div>
                         <input type="range" id="axis7" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis7-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis8">
                         <div class="axis-header">
                             <span class="axis-name">8. Institutional Posture</span>
                             <span class="axis-value" id="axis8-value">3</span>
@@ -671,9 +728,10 @@
                             <span class="right">Disruptive</span>
                         </div>
                         <input type="range" id="axis8" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis8-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis9">
                         <div class="axis-header">
                             <span class="axis-name">9. Political Stance</span>
                             <span class="axis-value" id="axis9-value">3</span>
@@ -683,9 +741,10 @@
                             <span class="right">Political</span>
                         </div>
                         <input type="range" id="axis9" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis9-warnings"></div>
                     </div>
 
-                    <div class="axis-item">
+                    <div class="axis-item" data-axis="axis10">
                         <div class="axis-header">
                             <span class="axis-name">10. Faith Orientation</span>
                             <span class="axis-value" id="axis10-value">3</span>
@@ -695,6 +754,7 @@
                             <span class="right">Secular</span>
                         </div>
                         <input type="range" id="axis10" min="1" max="5" value="3" />
+                        <div class="axis-inline-warnings" id="axis10-warnings"></div>
                     </div>
                 </div>
             </div>
@@ -709,8 +769,8 @@
                 
                 <div class="rules-content" id="rules-content">
                     <p class="rules-instructions">
-                        Paste rules from your spreadsheet below. Each line should follow this format:<br>
-                        <code>SEVERITY | CONDITION | MESSAGE</code><br><br>
+                        Paste rules from your spreadsheet below. Accepts both tab-separated (from Excel/Sheets) and pipe-separated formats.<br><br>
+                        Format: <code>SEVERITY | CONDITION | MESSAGE</code> or copy directly from spreadsheet<br>
                         Severity: <code>warning</code> (yellow) or <code>error</code> (red)<br>
                         Variables: <code>amount</code>, <code>focus</code>, <code>axis1</code> through <code>axis10</code><br>
                         Operators: <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>
@@ -763,19 +823,29 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
 </div>
 
 <script>
-    // Default rules stored as an array to avoid template literal encoding issues
+    // Default rules stored as an array
     var defaultRulesArray = [
-        "warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence.",
-        "error | amount < 250000 AND axis1 = 5 AND axis3 >= 4 | Fully global, systems-change work is extremely difficult to fund effectively under $250K/year. Consider local or direct-impact approaches.",
-        "warning | axis3 >= 4 AND axis4 = 1 | Systemic change and direct impact attribution are inherently in tension. Systems work takes years and causation is diffuse.",
-        "error | amount < 100000 AND axis3 = 5 | Long-horizon systemic change requires patient capital at scale. Under $100K/year, consider more direct-impact strategies.",
-        "warning | axis1 >= 4 AND axis5 <= 2 | Global reach with grassroots organizations is rare. Most grassroots groups operate locally or regionally.",
-        "warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused; they are still discovering what works.",
-        "warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging systems inherently involves political dimensions.",
-        "warning | focus = peace_conflict AND amount < 500000 | Peace and conflict work typically requires sustained, multi-year investment at significant scale to be effective.",
-        "warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young. Established actors are rare; most work is emergent.",
-        "warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records, not emergent organizations.",
-        "error | amount < 100000 AND axis2 >= 4 | Impact investing at under $100K/year is rarely viable. Transaction costs and due diligence requirements favor larger commitments."
+        "warning | axis2 >= 4 AND axis5 <= 2 | Impact investing and grassroots-led organizations are rarely compatible. Impact investing typically requires organizations with proven models, financial track records, and professional management structures.",
+        "warning | axis2 >= 4 AND axis6 <= 2 | Impact investing typically requires organizations with proven models and financial track records—not emergent organizations still figuring out what works.",
+        "warning | axis3 >= 4 AND axis4 <= 2 | Systemic change and direct action attribution are inherently in tension. Systems-level work takes years to materialize, and causation is diffuse and hard to trace to any single intervention.",
+        "warning | axis1 >= 4 AND axis5 <= 2 | Grassroots organizations with truly global reach are very rare. Most grassroots groups operate locally or regionally where they have authentic community ties.",
+        "warning | axis6 <= 2 AND axis7 >= 4 | Emergent organizations are rarely execution-focused. They are still figuring out what works and iterating on their models.",
+        "warning | axis8 >= 4 AND axis9 <= 2 | Disruptive organizations are rarely apolitical. Challenging existing systems inherently involves political dimensions and power dynamics.",
+        "warning | axis7 <= 2 AND axis6 >= 4 | If you want innovation, be cautious about limiting yourself to established actors. Established organizations often resist change and have institutional inertia.",
+        "warning | amount < 500000 AND axis1 >= 4 | Global-scale philanthropy typically requires $500K+ annually to achieve meaningful influence. Consider focusing on local or regional approaches.",
+        "warning | amount >= 5000000 AND axis6 <= 2 AND axis5 <= 2 | At $5M+ annually, funding emergent grassroots organizations requires careful structuring. Large grants can overwhelm small organizations and distort their community accountability.",
+        "warning | focus = global_health AND axis9 >= 4 | Global health work that is too politically aligned can face access restrictions and lose credibility as a neutral actor.",
+        "warning | focus = human_rights AND axis3 <= 2 | Human rights work focused solely on immediate, measurable impact may miss the deeper systemic and legal reforms that create lasting change.",
+        "warning | focus = gender_equality AND axis1 <= 2 AND axis9 <= 2 | Domestic gender equality work that is also apolitical faces inherent tensions. Much of the progress in this field comes through policy advocacy.",
+        "warning | focus = peace_conflict AND axis3 <= 2 | Peace and conflict resolution work rarely produces immediate, measurable results. This field requires patient capital and long time horizons.",
+        "warning | focus = peace_conflict AND axis2 >= 4 | Impact investing is rarely appropriate for peace and conflict work. The outcomes are difficult to monetize and the contexts are highly volatile.",
+        "warning | focus = faith_based AND axis10 >= 4 | If your focus is faith-based philanthropy but you prefer secular organizations, there is a fundamental mismatch in your strategy.",
+        "warning | focus = civic_democracy AND axis9 <= 2 | Civic engagement and democracy work is inherently political. Attempting to remain fully apolitical in this field limits your ability to create meaningful change.",
+        "warning | focus = ai_ethics AND axis6 >= 4 | The AI ethics field is young and rapidly evolving. Established actors are rare; most impactful work is being done by emergent organizations.",
+        "warning | focus = democracy_information AND axis9 <= 2 | Democracy and information integrity work cannot be 100% apolitical. Defending democratic institutions inherently involves political dimensions.",
+        "warning | focus = humanitarian AND axis3 >= 4 AND axis4 <= 2 | Humanitarian relief work that pursues both systemic change and direct action attribution faces inherent tensions.",
+        "warning | focus = arts_culture AND axis1 >= 4 AND amount < 5000000 | Global arts and culture philanthropy typically requires $5M+ annually to achieve meaningful reach.",
+        "warning | focus = climate_environment AND axis1 <= 2 AND axis9 <= 2 AND axis3 >= 4 | Domestic climate work pursuing systemic change while remaining apolitical is extremely difficult, particularly in the US context."
     ];
 
     var defaultRules = defaultRulesArray.join("\n");
@@ -800,6 +870,23 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
         return isNaN(num) ? 0 : num * multiplier;
     }
 
+    // Check minimum amount and show/hide error
+    function checkMinimumAmount() {
+        var amountInput = document.getElementById("amount");
+        var amountError = document.getElementById("amount-error");
+        var amount = parseAmount(amountInput.value);
+        
+        if (amountInput.value.trim() !== "" && amount > 0 && amount < 500000) {
+            amountInput.classList.add("input-error");
+            amountError.classList.add("visible");
+            return false;
+        } else {
+            amountInput.classList.remove("input-error");
+            amountError.classList.remove("visible");
+            return true;
+        }
+    }
+
     // Get current values
     function getCurrentValues() {
         return {
@@ -818,7 +905,7 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
         };
     }
 
-    // Parse rules from text
+    // Parse rules from text - supports both pipe-separated and tab-separated
     function parseRules(text) {
         var rules = [];
         var lines = text.trim().split("\n");
@@ -827,17 +914,44 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
             var line = lines[i];
             if (!line.trim() || line.indexOf("//") === 0 || line.indexOf("#") === 0) continue;
             
-            var parts = line.split("|");
+            // Try pipe separator first, then tab
+            var parts;
+            if (line.indexOf("|") >= 0) {
+                parts = line.split("|");
+            } else if (line.indexOf("\t") >= 0) {
+                parts = line.split("\t");
+            } else {
+                continue; // Skip lines without valid separators
+            }
+            
             if (parts.length >= 3) {
+                var severity = parts[0].trim().toLowerCase();
+                var condition = parts[1].trim();
                 var messageParts = parts.slice(2);
-                rules.push({
-                    severity: parts[0].trim().toLowerCase(),
-                    condition: parts[1].trim(),
-                    message: messageParts.join("|").trim()
-                });
+                var message = messageParts.join(" ").trim();
+                
+                // Only add if we have valid severity
+                if (severity === "warning" || severity === "error") {
+                    rules.push({
+                        severity: severity,
+                        condition: condition,
+                        message: message
+                    });
+                }
             }
         }
         return rules;
+    }
+
+    // Extract axis variables mentioned in a condition
+    function getAxesInCondition(condition) {
+        var axes = [];
+        for (var i = 1; i <= 10; i++) {
+            if (condition.indexOf("axis" + i) >= 0) {
+                axes.push("axis" + i);
+            }
+        }
+        return axes;
     }
 
     // Evaluate a condition string
@@ -897,14 +1011,19 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
         }
     }
 
-    // Check all rules and return triggered ones
+    // Check all rules and return triggered ones with axis info
     function checkRules(values) {
         var triggered = [];
         
         for (var i = 0; i < currentRules.length; i++) {
             var rule = currentRules[i];
             if (evaluateCondition(rule.condition, values)) {
-                triggered.push(rule);
+                triggered.push({
+                    severity: rule.severity,
+                    condition: rule.condition,
+                    message: rule.message,
+                    axes: getAxesInCondition(rule.condition)
+                });
             }
         }
         
@@ -918,11 +1037,64 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
         return triggered;
     }
 
+    // Clear all inline warnings
+    function clearInlineWarnings() {
+        for (var i = 1; i <= 10; i++) {
+            document.getElementById("axis" + i + "-warnings").innerHTML = "";
+        }
+    }
+
+    // Update inline warnings for each axis
+    function updateInlineWarnings(triggered) {
+        clearInlineWarnings();
+        
+        // Group warnings by axis
+        var warningsByAxis = {};
+        for (var i = 0; i < triggered.length; i++) {
+            var rule = triggered[i];
+            for (var j = 0; j < rule.axes.length; j++) {
+                var axis = rule.axes[j];
+                if (!warningsByAxis[axis]) {
+                    warningsByAxis[axis] = [];
+                }
+                // Avoid duplicates
+                var isDuplicate = false;
+                for (var k = 0; k < warningsByAxis[axis].length; k++) {
+                    if (warningsByAxis[axis][k].message === rule.message) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    warningsByAxis[axis].push(rule);
+                }
+            }
+        }
+        
+        // Display warnings under each axis
+        for (var axis in warningsByAxis) {
+            var container = document.getElementById(axis + "-warnings");
+            if (container) {
+                var html = "";
+                for (var m = 0; m < warningsByAxis[axis].length; m++) {
+                    var warning = warningsByAxis[axis][m];
+                    html += '<div class="inline-warning ' + warning.severity + '">' + warning.message + '</div>';
+                }
+                container.innerHTML = html;
+            }
+        }
+    }
+
     // Update feedback display
     function updateFeedback() {
+        checkMinimumAmount();
+        
         var values = getCurrentValues();
         var triggered = checkRules(values);
         var container = document.getElementById("feedback-container");
+        
+        // Update inline warnings
+        updateInlineWarnings(triggered);
         
         if (triggered.length === 0) {
             container.innerHTML = '<div class="feedback-empty">No strategic tensions detected with current selections. Adjust inputs to explore tradeoffs.</div>';
