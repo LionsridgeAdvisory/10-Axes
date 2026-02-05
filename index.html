@@ -10,10 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
+            --dark-teal: #1B3A34;
+            --mid-teal: #24504A;
             --forest: #2D5A47;
             --forest-light: #3D7A5F;
             --forest-pale: #E8F0EC;
-            --sand: #F5F3EF;
+            --accent-orange: #E0632B;
+            --accent-orange-light: #F4A261;
+            --sand: #F5F0E8;
             --warm-white: #FAFAF8;
             --charcoal: #2C2C2C;
             --slate: #5A5A5A;
@@ -43,25 +47,43 @@
     }
 
     .container {
-        max-width: 1200px;
+        max-width: 1100px;
         margin: 0 auto;
         padding: 2rem;
     }
 
     header {
         text-align: center;
-        padding: 3rem 0 2rem;
-        border-bottom: 1px solid rgba(45, 90, 71, 0.15);
-        margin-bottom: 2.5rem;
+        padding: 2.5rem 2rem 2rem;
+        margin: 0 0 2.5rem;
+        background: var(--dark-teal);
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(135deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(225deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(315deg, rgba(255,255,255,0.03) 25%, transparent 25%);
+        background-size: 60px 60px;
+        background-position: 0 0, 0 30px, 30px -30px, 30px 0px;
+        pointer-events: none;
     }
 
     .logo {
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 1.75rem;
         font-weight: 500;
-        color: var(--forest);
+        color: #FFFFFF;
         letter-spacing: 0.02em;
         margin-bottom: 0.5rem;
+        position: relative;
     }
 
     .logo span {
@@ -71,23 +93,29 @@
         text-transform: uppercase;
         display: block;
         margin-top: 0.25rem;
-        color: var(--slate);
+        color: rgba(255,255,255,0.6);
+    }
+
+    .logo-accent {
+        color: var(--accent-orange);
     }
 
     h1 {
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 2rem;
         font-weight: 400;
-        color: var(--charcoal);
-        margin-top: 1.5rem;
+        color: #FFFFFF;
+        margin-top: 1.25rem;
+        position: relative;
     }
 
     .intro {
-        color: var(--text-secondary);
+        color: rgba(255,255,255,0.7);
         font-size: 1rem;
         max-width: 680px;
-        margin: 1rem auto 0;
+        margin: 0.75rem auto 0;
         font-weight: 300;
+        position: relative;
     }
 
     .main-grid {
@@ -114,10 +142,10 @@
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 1.35rem;
         font-weight: 500;
-        color: var(--forest);
+        color: var(--dark-teal);
         margin-bottom: 1.5rem;
         padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--forest-pale);
+        border-bottom: 2px solid var(--accent-orange);
     }
 
     .field-group {
@@ -160,8 +188,8 @@
     input[type="text"]:focus,
     select:focus {
         outline: none;
-        border-color: var(--forest);
-        box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1);
+        border-color: var(--dark-teal);
+        box-shadow: 0 0 0 3px rgba(27, 58, 52, 0.1);
     }
 
     input[type="text"]::placeholder {
@@ -221,7 +249,7 @@
 
     .axis-value {
         font-size: 0.85rem;
-        color: var(--forest);
+        color: var(--accent-orange);
         font-weight: 600;
         min-width: 20px;
         text-align: right;
@@ -237,6 +265,11 @@
 
     .axis-labels span {
         max-width: 45%;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--dark-teal);
+        font-size: 0.7rem;
     }
 
     .axis-labels .left {
@@ -252,7 +285,7 @@
         height: 6px;
         -webkit-appearance: none;
         appearance: none;
-        background: linear-gradient(to right, var(--forest) 0%, var(--forest) var(--progress), #E0E0E0 var(--progress), #E0E0E0 100%);
+        background: linear-gradient(to right, var(--dark-teal) 0%, var(--dark-teal) var(--progress), #D8D3CC var(--progress), #D8D3CC 100%);
         border-radius: 3px;
         cursor: pointer;
     }
@@ -262,7 +295,7 @@
         appearance: none;
         width: 18px;
         height: 18px;
-        background: var(--forest);
+        background: var(--accent-orange);
         border-radius: 50%;
         cursor: pointer;
         box-shadow: 0 2px 4px rgba(0,0,0,0.15);
@@ -277,7 +310,7 @@
     input[type="range"]::-moz-range-thumb {
         width: 18px;
         height: 18px;
-        background: var(--forest);
+        background: var(--accent-orange);
         border-radius: 50%;
         cursor: pointer;
         border: none;
@@ -326,13 +359,14 @@
         border-radius: 12px;
         padding: 1.5rem;
         box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+        border-top: 3px solid var(--accent-orange);
     }
 
     .feedback-title {
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 1.2rem;
         font-weight: 500;
-        color: var(--forest);
+        color: var(--dark-teal);
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
@@ -426,13 +460,13 @@
     }
 
     .rules-toggle:hover .section-title {
-        color: var(--forest-light);
+        color: var(--mid-teal);
     }
 
     .toggle-icon {
         width: 24px;
         height: 24px;
-        color: var(--forest);
+        color: var(--dark-teal);
         transition: transform 0.3s;
     }
 
@@ -461,7 +495,7 @@
         padding: 0.15rem 0.4rem;
         border-radius: 3px;
         font-size: 0.85rem;
-        color: var(--forest);
+        color: var(--dark-teal);
     }
 
     textarea {
@@ -480,8 +514,8 @@
 
     textarea:focus {
         outline: none;
-        border-color: var(--forest);
-        box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1);
+        border-color: var(--dark-teal);
+        box-shadow: 0 0 0 3px rgba(27, 58, 52, 0.1);
     }
 
     .rules-actions {
@@ -503,18 +537,18 @@
     }
 
     .btn-primary {
-        background: var(--forest);
+        background: var(--dark-teal);
         color: white;
     }
 
     .btn-primary:hover {
-        background: var(--forest-light);
+        background: var(--mid-teal);
     }
 
     .btn-secondary {
         background: transparent;
-        color: var(--forest);
-        border: 1px solid var(--forest);
+        color: var(--dark-teal);
+        border: 1px solid var(--dark-teal);
     }
 
     .btn-secondary:hover {
@@ -527,7 +561,7 @@
     }
 
     .rules-status.success {
-        color: var(--forest);
+        color: var(--dark-teal);
     }
 
     .rules-status.error {
@@ -562,10 +596,32 @@
 
     footer {
         text-align: center;
-        padding: 2rem;
-        color: var(--text-secondary);
+        padding: 1.5rem 2rem;
+        color: rgba(255,255,255,0.6);
         font-size: 0.85rem;
-        margin-top: 3rem;
+        margin-top: 2.5rem;
+        background: var(--dark-teal);
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(135deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(225deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(315deg, rgba(255,255,255,0.03) 25%, transparent 25%);
+        background-size: 60px 60px;
+        background-position: 0 0, 0 30px, 30px -30px, 30px 0px;
+        pointer-events: none;
+    }
+
+    footer span {
+        position: relative;
     }
 </style>
 ```
@@ -575,7 +631,7 @@
     <div class="container">
         <header>
             <div class="logo">
-                Lionsridge
+                <span class="logo-accent">&#x2736;</span> Lionsridge
                 <span>Advisory</span>
             </div>
             <h1>Philanthropic Strategy Alignment Tool</h1>
@@ -818,7 +874,7 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
     </div>
 
     <footer>
-        &copy; 2025 Lionsridge Advisory. Philanthropic Strategy Alignment Tool.
+        <span>&copy; 2025 Lionsridge Advisory &middot; Boulder, Colorado</span>
     </footer>
 </div>
 
@@ -1199,7 +1255,6 @@ warning               focus = climate_environment AND axis3 <= 2   Climate work 
     };
 </script>
 ```
-
 
 </body>
 </html>
