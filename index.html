@@ -107,13 +107,13 @@
             <div class="input-panel">
                 <div class="field-group">
                     <label for="amount">Planned Annual Giving</label>
-                    <input type="text" id="amount" placeholder="e.g. $2,000,000 or 2M" />
+                    <input type="text" id="amount" placeholder="e.g. $2,000,000 or 2M" oninput="updateFeedback()" />
                     <div class="field-hint">Minimum $500,000. Enter as dollars (e.g. $500,000) or shorthand (e.g. 2M, 750K).</div>
                     <div class="amount-error" id="amount-error">This tool is designed for donors giving $500,000 or more annually. Please enter an amount of at least $500K.</div>
                 </div>
                 <div class="field-group">
                     <label for="focus">Primary Focus Area</label>
-                    <select id="focus">
+                    <select id="focus" onchange="updateFeedback()">
                         <option value="">Select a focus area...</option>
                         <option value="education">Education</option>
                         <option value="global_health">Public Health</option>
@@ -143,61 +143,61 @@
                     <div class="axis-item" data-axis="axis1">
                         <div class="axis-header"><span class="axis-name">1. Geographic Scope</span><span class="axis-value" id="axis1-value">3</span></div>
                         <div class="axis-labels"><span>Local</span><span>Global</span></div>
-                        <input type="range" id="axis1" min="1" max="5" value="3" />
+                        <input type="range" id="axis1" min="1" max="5" value="3" oninput="onSliderChange('axis1')" onchange="onSliderChange('axis1')" />
                         <div class="axis-inline-warnings" id="axis1-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis2">
                         <div class="axis-header"><span class="axis-name">2. Capital Approach</span><span class="axis-value" id="axis2-value">3</span></div>
                         <div class="axis-labels"><span>Grants</span><span>Impact Investing</span></div>
-                        <input type="range" id="axis2" min="1" max="5" value="3" />
+                        <input type="range" id="axis2" min="1" max="5" value="3" oninput="onSliderChange('axis2')" onchange="onSliderChange('axis2')" />
                         <div class="axis-inline-warnings" id="axis2-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis3">
                         <div class="axis-header"><span class="axis-name">3. Impact Horizon</span><span class="axis-value" id="axis3-value">3</span></div>
                         <div class="axis-labels"><span>Impact per Dollar Today</span><span>Systemic Change in the Future</span></div>
-                        <input type="range" id="axis3" min="1" max="5" value="3" />
+                        <input type="range" id="axis3" min="1" max="5" value="3" oninput="onSliderChange('axis3')" onchange="onSliderChange('axis3')" />
                         <div class="axis-inline-warnings" id="axis3-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis4">
                         <div class="axis-header"><span class="axis-name">4. Action Mode</span><span class="axis-value" id="axis4-value">3</span></div>
                         <div class="axis-labels"><span>Direct Action</span><span>Movement or Field Building</span></div>
-                        <input type="range" id="axis4" min="1" max="5" value="3" />
+                        <input type="range" id="axis4" min="1" max="5" value="3" oninput="onSliderChange('axis4')" onchange="onSliderChange('axis4')" />
                         <div class="axis-inline-warnings" id="axis4-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis5">
                         <div class="axis-header"><span class="axis-name">5. Organizational Scale</span><span class="axis-value" id="axis5-value">3</span></div>
                         <div class="axis-labels"><span>Grassroots Led</span><span>Professionally Managed</span></div>
-                        <input type="range" id="axis5" min="1" max="5" value="3" />
+                        <input type="range" id="axis5" min="1" max="5" value="3" oninput="onSliderChange('axis5')" onchange="onSliderChange('axis5')" />
                         <div class="axis-inline-warnings" id="axis5-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis6">
                         <div class="axis-header"><span class="axis-name">6. Maturity</span><span class="axis-value" id="axis6-value">3</span></div>
                         <div class="axis-labels"><span>Emergent Organization</span><span>Established Actor</span></div>
-                        <input type="range" id="axis6" min="1" max="5" value="3" />
+                        <input type="range" id="axis6" min="1" max="5" value="3" oninput="onSliderChange('axis6')" onchange="onSliderChange('axis6')" />
                         <div class="axis-inline-warnings" id="axis6-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis7">
                         <div class="axis-header"><span class="axis-name">7. Operational Style</span><span class="axis-value" id="axis7-value">3</span></div>
                         <div class="axis-labels"><span>Innovation-Focused</span><span>Execution-Focused</span></div>
-                        <input type="range" id="axis7" min="1" max="5" value="3" />
+                        <input type="range" id="axis7" min="1" max="5" value="3" oninput="onSliderChange('axis7')" onchange="onSliderChange('axis7')" />
                         <div class="axis-inline-warnings" id="axis7-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis8">
                         <div class="axis-header"><span class="axis-name">8. Disruption Level</span><span class="axis-value" id="axis8-value">3</span></div>
                         <div class="axis-labels"><span>Institutionally-Aligned</span><span>Disruptive</span></div>
-                        <input type="range" id="axis8" min="1" max="5" value="3" />
+                        <input type="range" id="axis8" min="1" max="5" value="3" oninput="onSliderChange('axis8')" onchange="onSliderChange('axis8')" />
                         <div class="axis-inline-warnings" id="axis8-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis9">
                         <div class="axis-header"><span class="axis-name">9. Political Orientation</span><span class="axis-value" id="axis9-value">3</span></div>
                         <div class="axis-labels"><span>Apolitical</span><span>Political</span></div>
-                        <input type="range" id="axis9" min="1" max="5" value="3" />
+                        <input type="range" id="axis9" min="1" max="5" value="3" oninput="onSliderChange('axis9')" onchange="onSliderChange('axis9')" />
                         <div class="axis-inline-warnings" id="axis9-warnings"></div>
                     </div>
                     <div class="axis-item" data-axis="axis10">
                         <div class="axis-header"><span class="axis-name">10. Faith Orientation</span><span class="axis-value" id="axis10-value">3</span></div>
                         <div class="axis-labels"><span>Religious</span><span>Secular</span></div>
-                        <input type="range" id="axis10" min="1" max="5" value="3" />
+                        <input type="range" id="axis10" min="1" max="5" value="3" oninput="onSliderChange('axis10')" onchange="onSliderChange('axis10')" />
                         <div class="axis-inline-warnings" id="axis10-warnings"></div>
                     </div>
                 </div>
@@ -439,11 +439,17 @@
 
     function updateSlider(sliderId) {
         var slider = document.getElementById(sliderId);
+        if (!slider) return;
         var valueDisplay = document.getElementById(sliderId + "-value");
         var value = slider.value, min = slider.min, max = slider.max;
         var progress = ((value - min) / (max - min)) * 100;
         slider.style.setProperty("--progress", progress + "%");
-        valueDisplay.textContent = value;
+        if (valueDisplay) valueDisplay.textContent = value;
+    }
+
+    function onSliderChange(sliderId) {
+        updateSlider(sliderId);
+        updateFeedback();
     }
 
     function initSliders() {
@@ -451,7 +457,11 @@
             var sliderId = "axis" + i;
             updateSlider(sliderId);
             (function(id) {
-                document.getElementById(id).addEventListener("input", function() { updateSlider(id); updateFeedback(); });
+                var el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener("input", function() { onSliderChange(id); });
+                    el.addEventListener("change", function() { onSliderChange(id); });
+                }
             })(sliderId);
         }
     }
@@ -472,18 +482,25 @@
             status.className = "rules-status success";
             updateFeedback();
             setTimeout(function() { status.textContent = ""; }, 3000);
-        } catch (e) { status.textContent = "Error parsing rules"; status.className = "rules-status error"; }
+        } catch (e) { status.textContent = "Error parsing rules: " + e.message; status.className = "rules-status error"; }
     }
 
     function resetRules() { document.getElementById("rules-input").value = defaultRules; loadRules(); }
 
-    window.onload = function() {
+    document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("rules-input").value = defaultRules;
         initSliders();
         loadRules();
-        document.getElementById("amount").addEventListener("input", updateFeedback);
-        document.getElementById("focus").addEventListener("change", updateFeedback);
-    };
+        var amountEl = document.getElementById("amount");
+        var focusEl = document.getElementById("focus");
+        if (amountEl) {
+            amountEl.addEventListener("input", updateFeedback);
+            amountEl.addEventListener("change", updateFeedback);
+        }
+        if (focusEl) {
+            focusEl.addEventListener("change", updateFeedback);
+        }
+    });
 </script>
 ```
 
