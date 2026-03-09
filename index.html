@@ -1,13 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Philanthropic Strategy Alignment Tool</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2D5A47;
@@ -19,490 +16,629 @@
             --slate: #5A5A5A;
             --warning-color: #D4A017;
             --warning-bg: #FDF8E8;
-            --warning-border: #E8C547;
             --error-color: #B84444;
             --error-bg: #FDEEEE;
-            --error-border: #E07070;
             --text-primary: #2C2C2C;
             --text-secondary: #5A5A5A;
             --border: rgba(45, 90, 71, 0.15);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Source Sans 3', -apple-system, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        header { text-align: center; padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
-        header h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; font-weight: 500; color: var(--primary); letter-spacing: 0.02em; margin-bottom: 0.5rem; }
-        header p { font-size: 1rem; color: var(--text-secondary); font-weight: 300; max-width: 600px; margin: 0 auto; }
-        .main-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
-        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
-        .input-panel { background: var(--bg-white); border-radius: 12px; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-        .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.35rem; font-weight: 500; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1.25rem; }
+        header {
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        header h1 { font-size: 1.8rem; font-weight: 500; color: var(--primary); margin-bottom: 0.5rem; }
+        header p { font-size: 1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+            align-items: start;
+        }
+        .input-panel {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
         .field-group { margin-bottom: 1.25rem; }
-        .field-group label { display: block; font-weight: 500; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
-        .field-group input[type="text"], .field-group select { width: 100%; padding: 0.65rem 0.85rem; border: 1px solid #d0d0d0; border-radius: 8px; font-size: 1rem; font-family: inherit; background: #fff; color: var(--text-primary); transition: border-color 0.2s; }
-        .field-group input[type="text"]:focus, .field-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1); }
-        .field-group input.error-input { border-color: var(--error-color); box-shadow: 0 0 0 3px rgba(184, 68, 68, 0.1); }
+        .field-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+        .field-group input[type="text"],
+        .field-group select {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #fff;
+        }
         .field-hint { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem; }
-        .amount-error { display: none; color: var(--error-color); font-size: 0.85rem; margin-top: 0.4rem; padding: 0.5rem 0.75rem; background: var(--error-bg); border-radius: 6px; border-left: 3px solid var(--error-color); }
+        .amount-error {
+            display: none;
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--error-bg);
+            border-radius: 6px;
+            border-left: 3px solid var(--error-color);
+        }
         .amount-error.visible { display: block; }
         .axes-section { margin-top: 1.5rem; }
-        .axis-item { margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .axis-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .axis-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
-        .axis-name { font-weight: 500; font-size: 0.95rem; color: var(--charcoal); }
-        .axis-value { font-weight: 600; font-size: 0.9rem; background: var(--primary-pale); color: var(--primary); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; }
-        .axis-labels { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
-        input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--primary) 0%, var(--primary) var(--progress, 50%), #ddd var(--progress, 50%), #ddd 100%); outline: none; cursor: pointer; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.15s; }
-        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
-        input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--primary); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2); cursor: pointer; }
+        .axis-item {
+            margin-bottom: 1.4rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .axis-item:last-child { border-bottom: none; }
+        .axis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        .axis-name { font-weight: 500; font-size: 0.95rem; }
+        .axis-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: var(--primary-pale);
+            color: var(--primary);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .axis-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
         .axis-inline-warnings { margin-top: 0.5rem; }
-        .axis-inline-warning { font-size: 0.82rem; padding: 0.4rem 0.65rem; border-radius: 5px; margin-top: 0.35rem; line-height: 1.4; }
-        .axis-inline-warning.warning { background: var(--warning-bg); color: #8B6914; border-left: 3px solid var(--warning-color); }
-        .axis-inline-warning.error { background: var(--error-bg); color: var(--error-color); border-left: 3px solid var(--error-color); }
+        .axis-inline-warning {
+            font-size: 0.82rem;
+            padding: 0.4rem 0.65rem;
+            border-radius: 5px;
+            margin-top: 0.35rem;
+            line-height: 1.4;
+        }
+        .axis-inline-warning.warning {
+            background: var(--warning-bg);
+            color: #8B6914;
+            border-left: 3px solid var(--warning-color);
+        }
+        .axis-inline-warning.error {
+            background: var(--error-bg);
+            color: var(--error-color);
+            border-left: 3px solid var(--error-color);
+        }
         .feedback-panel { position: sticky; top: 2rem; }
-        .feedback-container { background: var(--bg-white); border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); min-height: 200px; max-height: 85vh; overflow-y: auto; }
-        .feedback-container h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 500; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 0.65rem; margin-bottom: 1rem; }
-        .feedback-empty { text-align: center; color: var(--text-secondary); font-size: 0.9rem; padding: 2rem 1rem; }
-        .feedback-empty .check { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
-        .feedback-item { padding: 0.75rem 0.85rem; border-radius: 8px; margin-bottom: 0.75rem; font-size: 0.88rem; line-height: 1.5; }
-        .feedback-item.warning { background: var(--warning-bg); border-left: 4px solid var(--warning-color); }
-        .feedback-item.error { background: var(--error-bg); border-left: 4px solid var(--error-color); }
-        .feedback-item-header { font-weight: 600; margin-bottom: 0.3rem; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+        .feedback-container {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            min-height: 200px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .feedback-container h2 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.65rem;
+            margin-bottom: 1rem;
+        }
+        .feedback-empty {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 2rem 1rem;
+        }
+        .feedback-item {
+            padding: 0.75rem 0.85rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .feedback-item.warning {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning-color);
+        }
+        .feedback-item.error {
+            background: var(--error-bg);
+            border-left: 4px solid var(--error-color);
+        }
+        .feedback-item-header {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
         .feedback-item.warning .feedback-item-header { color: var(--warning-color); }
         .feedback-item.error .feedback-item-header { color: var(--error-color); }
         .feedback-count { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
         .feedback-count .warn-count { color: var(--warning-color); font-weight: 600; }
         .feedback-count .err-count { color: var(--error-color); font-weight: 600; }
-        .rules-section { background: var(--bg-white); border-radius: 12px; padding: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-top: 2rem; }
-        .rules-toggle { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; user-select: none; }
-        .rules-toggle:hover { background: rgba(0,0,0,0.015); border-radius: 12px; }
+        .rules-section {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-top: 2rem;
+        }
+        .rules-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+        }
         .toggle-icon { width: 20px; height: 20px; color: var(--text-secondary); transition: transform 0.25s; }
         .toggle-icon.open { transform: rotate(180deg); }
         .rules-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
         .rules-content.open { max-height: 1200px; }
         .rules-inner { padding: 0 1.5rem 1.5rem; }
-        .rules-instructions { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+        .rules-instructions { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
         .rules-instructions code { background: #eee; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.82rem; }
-        .rules-textarea { width: 100%; min-height: 250px; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.78rem; line-height: 1.6; border: 1px solid #d0d0d0; border-radius: 8px; padding: 0.75rem; resize: vertical; color: var(--text-primary); }
-        .rules-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 90, 71, 0.1); }
+        .rules-textarea {
+            width: 100%;
+            min-height: 250px;
+            font-family: monospace;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            resize: vertical;
+        }
         .rules-actions { display: flex; gap: 0.75rem; margin-top: 0.75rem; align-items: center; }
-        .btn { padding: 0.5rem 1.1rem; border: none; border-radius: 6px; font-size: 0.85rem; font-family: inherit; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn {
+            padding: 0.5rem 1.1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
         .btn-primary { background: var(--primary); color: #fff; }
-        .btn-primary:hover { background: var(--primary-light); }
         .btn-secondary { background: #e8e8e8; color: var(--charcoal); }
-        .btn-secondary:hover { background: #ddd; }
         .rules-status { font-size: 0.82rem; font-weight: 500; }
         .rules-status.success { color: var(--primary); }
         .rules-status.error { color: var(--error-color); }
+        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Philanthropic Strategy Alignment Tool</h1>
-            <p>Explore how your giving goals, focus areas, and organizational preferences interact &mdash; and where tensions may arise.</p>
+            <p>Explore how your giving goals, focus areas, and organizational preferences interact and where tensions may arise.</p>
         </header>
         <div class="main-layout">
             <div class="input-panel">
                 <div class="field-group">
                     <label for="amount">Planned Annual Giving</label>
-                    <input type="text" id="amount" placeholder="e.g. $2,000,000 or 2M" oninput="updateFeedback()" />
+                    <input type="text" id="amount" placeholder="e.g. $2,000,000 or 2M" oninput="doUpdate()" onchange="doUpdate()" />
                     <div class="field-hint">Minimum $500,000. Enter as dollars (e.g. $500,000) or shorthand (e.g. 2M, 750K).</div>
-                    <div class="amount-error" id="amount-error">This tool is designed for donors giving $500,000 or more annually. Please enter an amount of at least $500K.</div>
+                    <div class="amount-error" id="amount-error">This tool is designed for donors giving $500,000 or more annually.</div>
                 </div>
                 <div class="field-group">
                     <label for="focus">Primary Focus Area</label>
-                    <select id="focus" onchange="updateFeedback()">
+                    <select id="focus" onchange="doUpdate()">
                         <option value="">Select a focus area...</option>
                         <option value="education">Education</option>
                         <option value="global_health">Public Health</option>
                         <option value="economic_development">Economic Development</option>
                         <option value="climate_environment">Climate, Conservation, and Environment</option>
-                        <option value="human_rights">Human Rights &amp; Justice</option>
-                        <option value="arts_culture">Arts &amp; Culture</option>
-                        <option value="gender_equality">Gender Equality &amp; Women's Empowerment</option>
+                        <option value="human_rights">Human Rights and Justice</option>
+                        <option value="arts_culture">Arts and Culture</option>
+                        <option value="gender_equality">Gender Equality and Womens Empowerment</option>
                         <option value="humanitarian">Humanitarian Relief</option>
-                        <option value="peace_conflict">Peace &amp; Conflict Resolution</option>
-                        <option value="food_agriculture">Food Security &amp; Agriculture</option>
-                        <option value="technology">Technology &amp; Digital Inclusion</option>
-                        <option value="youth_child">Youth &amp; Child Development</option>
-                        <option value="philanthropy_infrastructure">Philanthropy Infrastructure &amp; Capacity</option>
-                        <option value="faith_based">Faith-based &amp; Spiritual Engagement</option>
-                        <option value="civic_democracy">Civic Engagement &amp; Democracy</option>
-                        <option value="mental_health">Mental Health &amp; Well-being</option>
-                        <option value="migration_refugees">Migration &amp; Refugees</option>
-                        <option value="aging_longevity">Aging &amp; Longevity</option>
-                        <option value="ai_ethics">Artificial Intelligence &amp; Technology Ethics</option>
-                        <option value="democracy_information">Media &amp; Information Integrity</option>
+                        <option value="peace_conflict">Peace and Conflict Resolution</option>
+                        <option value="food_agriculture">Food Security and Agriculture</option>
+                        <option value="technology">Technology and Digital Inclusion</option>
+                        <option value="youth_child">Youth and Child Development</option>
+                        <option value="philanthropy_infrastructure">Philanthropy Infrastructure and Capacity</option>
+                        <option value="faith_based">Faith-based and Spiritual Engagement</option>
+                        <option value="civic_democracy">Civic Engagement and Democracy</option>
+                        <option value="mental_health">Mental Health and Well-being</option>
+                        <option value="migration_refugees">Migration and Refugees</option>
+                        <option value="aging_longevity">Aging and Longevity</option>
+                        <option value="ai_ethics">Artificial Intelligence and Technology Ethics</option>
+                        <option value="democracy_information">Media and Information Integrity</option>
                         <option value="water_sanitation">Water and Sanitation</option>
                     </select>
                 </div>
                 <div class="axes-section">
                     <h2 class="section-title">10 Axes of NGOs</h2>
-                    <div class="axis-item" data-axis="axis1">
-                        <div class="axis-header"><span class="axis-name">1. Geographic Scope</span><span class="axis-value" id="axis1-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">1. Geographic Scope</span><span class="axis-value" id="v1">3</span></div>
                         <div class="axis-labels"><span>Local</span><span>Global</span></div>
-                        <input type="range" id="axis1" min="1" max="5" value="3" oninput="onSliderChange('axis1')" onchange="onSliderChange('axis1')" />
-                        <div class="axis-inline-warnings" id="axis1-warnings"></div>
+                        <input type="range" id="a1" min="1" max="5" value="3" oninput="doSlider(1)" onchange="doSlider(1)" />
+                        <div class="axis-inline-warnings" id="w1"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis2">
-                        <div class="axis-header"><span class="axis-name">2. Capital Approach</span><span class="axis-value" id="axis2-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">2. Capital Approach</span><span class="axis-value" id="v2">3</span></div>
                         <div class="axis-labels"><span>Grants</span><span>Impact Investing</span></div>
-                        <input type="range" id="axis2" min="1" max="5" value="3" oninput="onSliderChange('axis2')" onchange="onSliderChange('axis2')" />
-                        <div class="axis-inline-warnings" id="axis2-warnings"></div>
+                        <input type="range" id="a2" min="1" max="5" value="3" oninput="doSlider(2)" onchange="doSlider(2)" />
+                        <div class="axis-inline-warnings" id="w2"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis3">
-                        <div class="axis-header"><span class="axis-name">3. Impact Horizon</span><span class="axis-value" id="axis3-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">3. Impact Horizon</span><span class="axis-value" id="v3">3</span></div>
                         <div class="axis-labels"><span>Impact per Dollar Today</span><span>Systemic Change in the Future</span></div>
-                        <input type="range" id="axis3" min="1" max="5" value="3" oninput="onSliderChange('axis3')" onchange="onSliderChange('axis3')" />
-                        <div class="axis-inline-warnings" id="axis3-warnings"></div>
+                        <input type="range" id="a3" min="1" max="5" value="3" oninput="doSlider(3)" onchange="doSlider(3)" />
+                        <div class="axis-inline-warnings" id="w3"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis4">
-                        <div class="axis-header"><span class="axis-name">4. Action Mode</span><span class="axis-value" id="axis4-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">4. Action Mode</span><span class="axis-value" id="v4">3</span></div>
                         <div class="axis-labels"><span>Direct Action</span><span>Movement or Field Building</span></div>
-                        <input type="range" id="axis4" min="1" max="5" value="3" oninput="onSliderChange('axis4')" onchange="onSliderChange('axis4')" />
-                        <div class="axis-inline-warnings" id="axis4-warnings"></div>
+                        <input type="range" id="a4" min="1" max="5" value="3" oninput="doSlider(4)" onchange="doSlider(4)" />
+                        <div class="axis-inline-warnings" id="w4"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis5">
-                        <div class="axis-header"><span class="axis-name">5. Organizational Scale</span><span class="axis-value" id="axis5-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">5. Organizational Scale</span><span class="axis-value" id="v5">3</span></div>
                         <div class="axis-labels"><span>Grassroots Led</span><span>Professionally Managed</span></div>
-                        <input type="range" id="axis5" min="1" max="5" value="3" oninput="onSliderChange('axis5')" onchange="onSliderChange('axis5')" />
-                        <div class="axis-inline-warnings" id="axis5-warnings"></div>
+                        <input type="range" id="a5" min="1" max="5" value="3" oninput="doSlider(5)" onchange="doSlider(5)" />
+                        <div class="axis-inline-warnings" id="w5"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis6">
-                        <div class="axis-header"><span class="axis-name">6. Maturity</span><span class="axis-value" id="axis6-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">6. Maturity</span><span class="axis-value" id="v6">3</span></div>
                         <div class="axis-labels"><span>Emergent Organization</span><span>Established Actor</span></div>
-                        <input type="range" id="axis6" min="1" max="5" value="3" oninput="onSliderChange('axis6')" onchange="onSliderChange('axis6')" />
-                        <div class="axis-inline-warnings" id="axis6-warnings"></div>
+                        <input type="range" id="a6" min="1" max="5" value="3" oninput="doSlider(6)" onchange="doSlider(6)" />
+                        <div class="axis-inline-warnings" id="w6"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis7">
-                        <div class="axis-header"><span class="axis-name">7. Operational Style</span><span class="axis-value" id="axis7-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">7. Operational Style</span><span class="axis-value" id="v7">3</span></div>
                         <div class="axis-labels"><span>Innovation-Focused</span><span>Execution-Focused</span></div>
-                        <input type="range" id="axis7" min="1" max="5" value="3" oninput="onSliderChange('axis7')" onchange="onSliderChange('axis7')" />
-                        <div class="axis-inline-warnings" id="axis7-warnings"></div>
+                        <input type="range" id="a7" min="1" max="5" value="3" oninput="doSlider(7)" onchange="doSlider(7)" />
+                        <div class="axis-inline-warnings" id="w7"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis8">
-                        <div class="axis-header"><span class="axis-name">8. Disruption Level</span><span class="axis-value" id="axis8-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">8. Disruption Level</span><span class="axis-value" id="v8">3</span></div>
                         <div class="axis-labels"><span>Institutionally-Aligned</span><span>Disruptive</span></div>
-                        <input type="range" id="axis8" min="1" max="5" value="3" oninput="onSliderChange('axis8')" onchange="onSliderChange('axis8')" />
-                        <div class="axis-inline-warnings" id="axis8-warnings"></div>
+                        <input type="range" id="a8" min="1" max="5" value="3" oninput="doSlider(8)" onchange="doSlider(8)" />
+                        <div class="axis-inline-warnings" id="w8"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis9">
-                        <div class="axis-header"><span class="axis-name">9. Political Orientation</span><span class="axis-value" id="axis9-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">9. Political Orientation</span><span class="axis-value" id="v9">3</span></div>
                         <div class="axis-labels"><span>Apolitical</span><span>Political</span></div>
-                        <input type="range" id="axis9" min="1" max="5" value="3" oninput="onSliderChange('axis9')" onchange="onSliderChange('axis9')" />
-                        <div class="axis-inline-warnings" id="axis9-warnings"></div>
+                        <input type="range" id="a9" min="1" max="5" value="3" oninput="doSlider(9)" onchange="doSlider(9)" />
+                        <div class="axis-inline-warnings" id="w9"></div>
                     </div>
-                    <div class="axis-item" data-axis="axis10">
-                        <div class="axis-header"><span class="axis-name">10. Faith Orientation</span><span class="axis-value" id="axis10-value">3</span></div>
+                    <div class="axis-item">
+                        <div class="axis-header"><span class="axis-name">10. Faith Orientation</span><span class="axis-value" id="v10">3</span></div>
                         <div class="axis-labels"><span>Religious</span><span>Secular</span></div>
-                        <input type="range" id="axis10" min="1" max="5" value="3" oninput="onSliderChange('axis10')" onchange="onSliderChange('axis10')" />
-                        <div class="axis-inline-warnings" id="axis10-warnings"></div>
+                        <input type="range" id="a10" min="1" max="5" value="3" oninput="doSlider(10)" onchange="doSlider(10)" />
+                        <div class="axis-inline-warnings" id="w10"></div>
                     </div>
                 </div>
             </div>
             <div class="feedback-panel">
-                <div class="feedback-container" id="feedback-container">
+                <div class="feedback-container" id="fb">
                     <h2>Strategic Feedback</h2>
-                    <div class="feedback-empty"><span class="check">&#10003;</span>No strategic tensions detected. Adjust your inputs to explore tradeoffs.</div>
+                    <div class="feedback-empty">No strategic tensions detected. Adjust your inputs to explore tradeoffs.</div>
                 </div>
             </div>
         </div>
         <div class="rules-section">
             <div class="rules-toggle" onclick="toggleRules()">
-                <h2 class="section-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Rules Configuration</h2>
-                <svg class="toggle-icon" id="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <h2 class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Rules Configuration</h2>
+                <svg class="toggle-icon" id="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
-            <div class="rules-content" id="rules-content">
+            <div class="rules-content" id="rc">
                 <div class="rules-inner">
                     <p class="rules-instructions">
-                        Paste rules from your spreadsheet or Google Doc below. Each line should follow this format:<br>
-                        <code>SEVERITY | CONDITION | MESSAGE</code> &nbsp;or tab-separated from Google Sheets/Docs<br><br>
-                        Severity: <code>warning</code> (yellow) or <code>error</code> (red)<br>
-                        Variables: <code>amount</code>, <code>focus</code>, <code>axis1</code> through <code>axis10</code><br>
-                        Operators: <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code>, <code>AND</code>, <code>OR</code>
+                        Paste rules below. Format: <code>severity | condition | message</code> or tab-separated.<br>
+                        Variables: <code>amount</code>, <code>focus</code>, <code>axis1</code>-<code>axis10</code>.
+                        Operators: <code>&gt; &lt; = &gt;= &lt;= != AND OR</code>
                     </p>
-                    <textarea class="rules-textarea" id="rules-input" placeholder="Paste rules here..."></textarea>
+                    <textarea class="rules-textarea" id="ri"></textarea>
                     <div class="rules-actions">
                         <button class="btn btn-primary" onclick="loadRules()">Load Rules</button>
                         <button class="btn btn-secondary" onclick="resetRules()">Reset to Defaults</button>
-                        <span class="rules-status" id="rules-status"></span>
+                        <span class="rules-status" id="rs"></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        var varNames = {
-            "amount": "GIVING AMOUNT", "focus": "FOCUS AREA",
-            "axis1": "GEOGRAPHIC SCOPE", "axis2": "CAPITAL APPROACH",
-            "axis3": "IMPACT HORIZON", "axis4": "ACTION MODE",
-            "axis5": "ORGANIZATIONAL SCALE", "axis6": "MATURITY",
-            "axis7": "OPERATIONAL STYLE", "axis8": "DISRUPTION LEVEL",
-            "axis9": "POLITICAL ORIENTATION", "axis10": "FAITH ORIENTATION"
-        };
+<script>
+var DR = "";
+DR += "warning | axis2 >= 4 AND axis5 <= 2 | Too much <b>impact investing</b> with <b>grassroots-led</b> organizations is risky. Grassroots orgs typically lack the financial infrastructure for investment-style capital.\n";
+DR += "warning | axis2 >= 4 AND axis6 <= 2 | <b>Impact investing</b> in <b>emergent organizations</b> carries significant risk unless leadership has a strong track record.\n";
+DR += "warning | axis3 >= 4 AND axis4 <= 2 | <b>Systems change</b> and <b>direct action</b> are in tension. Systemic work operates at the field-building and movement level, not at the direct-action level.\n";
+DR += "warning | axis4 >= 4 AND axis3 <= 2 | Too much <b>field building</b> and too much <b>impact per dollar today</b> are in tension. Field building is long-horizon work with diffuse returns.\n";
+DR += "warning | axis1 >= 4 AND axis5 <= 2 | <b>Grassroots</b> organizations with a <b>global</b> reach are very rare. Most grassroots groups operate locally or regionally.\n";
+DR += "warning | axis6 <= 2 AND axis7 >= 4 | <b>Emergent organizations</b> are rarely <b>execution-focused</b>. They are still figuring out what works.\n";
+DR += "warning | axis8 >= 4 AND axis9 <= 2 | <b>Disruptive</b> organizations cannot be too <b>apolitical</b>. Disruption tends to challenge existing power structures, which is inherently political.\n";
+DR += "warning | axis3 <= 2 AND axis8 >= 4 | <b>Impact-per-dollar-today</b> and high <b>disruption</b> are an unusual combination. Disruption typically implies systems-level change.\n";
+DR += "warning | axis5 <= 2 AND axis3 >= 4 | <b>Grassroots</b> organizations often lack the infrastructure for <b>systemic change</b> at scale. Consider more professionally managed organizations.\n";
+DR += "warning | axis6 <= 2 AND axis3 >= 4 | <b>Emergent organizations</b> rarely have the track record or infrastructure for large-scale <b>systemic change</b>.\n";
+DR += "warning | axis7 <= 2 AND axis6 >= 4 | <b>Established organizations</b> tend toward execution over <b>innovation</b>. If you want innovation, consider younger organizations.\n";
+DR += "warning | amount < 1000000 AND axis1 >= 4 | At <b>under $1M annually</b>, <b>global-scale</b> philanthropy is difficult to sustain with meaningful influence.\n";
+DR += "warning | amount < 1000000 AND axis3 <= 2 | At <b>under $1M annually</b>, expecting high <b>impact per dollar today</b> at scale is challenging. Consider fewer, high-quality grants.\n";
+DR += "error | amount < 1000000 AND axis1 >= 4 AND axis3 <= 2 | <b>Global scale</b> and high <b>impact per dollar today</b> at <b>under $1M/year</b> is an extremely difficult combination.\n";
+DR += "warning | amount > 5000000 AND axis6 <= 2 | At <b>over $5M annually</b>, <b>emergent organizations</b> may struggle to absorb this level of capital effectively.\n";
+DR += "warning | amount > 5000000 AND axis5 <= 2 | At <b>over $5M annually</b>, <b>grassroots organizations</b> may lack the capacity to deploy this level of funding. Consider a portfolio approach.\n";
+DR += "warning | amount > 5000000 AND axis1 = 1 | At <b>over $5M annually</b>, purely <b>local</b> organizations may struggle to absorb capital effectively. Consider a portfolio approach.\n";
+DR += "warning | focus = global_health AND axis9 >= 4 | <b>Public health</b> work cannot be too <b>political</b>. Politicization can undermine trust and access in health interventions.\n";
+DR += "warning | focus = human_rights AND axis3 <= 2 | <b>Human rights</b> work cannot expect too much <b>impact per dollar today</b>. This is inherently long-horizon, systems-level work.\n";
+DR += "warning | focus = gender_equality AND axis1 <= 2 AND axis9 <= 2 | <b>Gender equality</b> work cannot be both <b>domestic</b> and <b>apolitical</b>. Domestic gender work inherently engages political systems.\n";
+DR += "warning | focus = gender_equality AND axis3 <= 2 | <b>Gender equality</b> work cannot be too focused on <b>impact per dollar today</b>. This is structural, long-term work.\n";
+DR += "warning | focus = peace_conflict AND axis3 <= 2 | <b>Peace and conflict resolution</b> cannot expect too much <b>impact per dollar today</b>. This work requires sustained, patient engagement.\n";
+DR += "warning | focus = peace_conflict AND axis2 >= 4 | <b>Peace and conflict resolution</b> cannot be too focused on <b>impact investing</b>. This space has limited investable opportunities.\n";
+DR += "warning | focus = food_agriculture AND axis9 <= 2 AND axis4 <= 2 | <b>Food security</b> work cannot be too <b>apolitical</b> and too focused on <b>direct action</b>, especially if not willing to be disruptive.\n";
+DR += "warning | focus = food_agriculture AND axis8 <= 2 AND axis9 <= 2 | <b>Food security</b> work that is both <b>non-disruptive</b> and <b>apolitical</b> may have limited systemic impact.\n";
+DR += "warning | focus = youth_child AND axis9 <= 2 AND axis4 <= 2 | <b>Youth and child development</b> cannot be too <b>apolitical</b> and too focused on <b>direct action</b>, especially if not willing to be disruptive.\n";
+DR += "warning | focus = youth_child AND axis8 <= 2 AND axis9 <= 2 | <b>Youth and child development</b> work that is both <b>non-disruptive</b> and <b>apolitical</b> may have limited systemic impact.\n";
+DR += "warning | focus = philanthropy_infrastructure AND axis8 >= 4 | <b>Philanthropy infrastructure</b> work cannot be too <b>disruptive</b>. This space relies on institutional trust and relationships.\n";
+DR += "warning | focus = faith_based AND axis10 >= 4 | <b>Faith-based</b> work cannot be too <b>secular</b>. The faith dimension is central to this focus area.\n";
+DR += "warning | focus = civic_democracy AND axis10 <= 2 | <b>Civic engagement and democracy</b> work cannot be too <b>religious</b> if you are domestic.\n";
+DR += "warning | focus = civic_democracy AND axis9 <= 2 | <b>Civic engagement and democracy</b> work cannot be too <b>apolitical</b>. This is inherently political work.\n";
+DR += "warning | focus = mental_health AND axis9 >= 4 AND axis4 <= 2 | <b>Mental health</b> work cannot be both <b>political</b> and focused on <b>direct action</b>. Effective interventions require clinical approaches.\n";
+DR += "warning | focus = aging_longevity AND axis6 >= 4 | <b>Aging and longevity</b>: not very many <b>established actors</b> in this emerging space. Consider supporting newer organizations.\n";
+DR += "warning | focus = ai_ethics AND axis6 >= 4 | <b>AI and technology ethics</b>: not very many <b>established actors</b> in this rapidly evolving space. Consider supporting newer organizations.\n";
+DR += "warning | focus = democracy_information AND axis9 <= 2 | <b>Media and information integrity</b> work cannot be 100% <b>apolitical</b>. Information ecosystems are intertwined with political dynamics.\n";
+DR += "warning | focus = water_sanitation AND axis9 >= 4 AND axis4 <= 2 | <b>Water and sanitation</b> work cannot be both <b>political</b> and focused on <b>direct action</b>. WASH programs require technical approaches.\n";
+DR += "warning | focus = climate_environment AND axis3 <= 2 AND axis1 >= 4 | <b>Global</b> climate work focused only on <b>impact per dollar today</b> may have limited scale impact. Consider systems-change approaches.\n";
+DR += "warning | focus = arts_culture AND axis3 <= 2 | <b>Arts and culture</b> outcomes are difficult to measure in terms of <b>impact per dollar today</b>.\n";
+DR += "warning | focus = humanitarian AND axis3 >= 4 | <b>Humanitarian relief</b> is inherently about immediate response. <b>Systemic change</b> requires a fundamentally different type of organization.\n";
+DR += "warning | axis1 >= 4 AND axis5 <= 2 AND amount < 1000000 | <b>Small dollars</b> funding <b>global grassroots</b> work is an extremely difficult combination.\n";
+DR += "error | amount < 1000000 AND axis1 >= 4 AND axis3 >= 4 AND axis4 >= 4 | <b>Global systems change</b> with high <b>field building</b> at <b>under $1M/year</b> is an extremely challenging combination.";
 
-```
-    var defaultRulesArr = [
-        "warning | axis2 >= 4 AND axis5 <= 2 | Too much <b>impact investing</b> with <b>grassroots-led</b> organizations is risky. Grassroots orgs typically lack the financial infrastructure for investment-style capital.",
-        "warning | axis2 >= 4 AND axis6 <= 2 | <b>Impact investing</b> in <b>emergent organizations</b> carries significant risk unless leadership has a strong track record.",
-        "warning | axis3 >= 4 AND axis4 <= 2 | <b>Systems change</b> and <b>direct action</b> are in tension. Systemic work operates at the field-building and movement level, not at the direct-action level.",
-        "warning | axis4 >= 4 AND axis3 <= 2 | Too much <b>field building</b> and too much <b>impact per dollar today</b> are in tension. Field building is long-horizon work with diffuse returns.",
-        "warning | axis1 >= 4 AND axis5 <= 2 | <b>Grassroots</b> organizations with a <b>global</b> reach are very rare. Most grassroots groups operate locally or regionally.",
-        "warning | axis6 <= 2 AND axis7 >= 4 | <b>Emergent organizations</b> are rarely <b>execution-focused</b>. They are still figuring out what works.",
-        "warning | axis8 >= 4 AND axis9 <= 2 | <b>Disruptive</b> organizations cannot be too <b>apolitical</b>. Disruption tends to challenge existing power structures, which is inherently political.",
-        "warning | axis3 <= 2 AND axis8 >= 4 | <b>Impact-per-dollar-today</b> and high <b>disruption</b> are an unusual combination. Disruption typically implies systems-level change.",
-        "warning | axis5 <= 2 AND axis3 >= 4 | <b>Grassroots</b> organizations often lack the infrastructure for <b>systemic change</b> at scale. Consider more professionally managed organizations for systems work.",
-        "warning | axis6 <= 2 AND axis3 >= 4 | <b>Emergent organizations</b> rarely have the track record or infrastructure for large-scale <b>systemic change</b>.",
-        "warning | axis7 <= 2 AND axis6 >= 4 | <b>Established organizations</b> tend toward execution over <b>innovation</b>. If you want innovation, consider younger or more entrepreneurial organizations.",
-        "warning | amount < 1000000 AND axis1 >= 4 | At <b>under $1M annually</b>, <b>global-scale</b> philanthropy is difficult to sustain with meaningful influence.",
-        "warning | amount < 1000000 AND axis3 <= 2 | At <b>under $1M annually</b>, expecting high <b>impact per dollar today</b> at scale is challenging. Consider focusing on fewer, high-quality grants.",
-        "error | amount < 1000000 AND axis1 >= 4 AND axis3 <= 2 | <b>Global scale</b> and high <b>impact per dollar today</b> at <b>under $1M/year</b> is an extremely difficult combination. Consider narrowing geographic scope or adjusting expectations.",
-        "warning | amount > 5000000 AND axis6 <= 2 | At <b>over $5M annually</b>, <b>emergent organizations</b> may struggle to absorb this level of capital effectively.",
-        "warning | amount > 5000000 AND axis5 <= 2 | At <b>over $5M annually</b>, <b>grassroots organizations</b> may lack the capacity to deploy this level of funding. Consider a portfolio approach.",
-        "warning | amount > 5000000 AND axis1 = 1 | At <b>over $5M annually</b>, purely <b>local</b> organizations may struggle to absorb capital effectively. Consider a portfolio approach or expanding geographic scope.",
-        "warning | focus = global_health AND axis9 >= 4 | <b>Public health</b> work cannot be too <b>political</b>. Politicization can undermine trust and access in health interventions.",
-        "warning | focus = human_rights AND axis3 <= 2 | <b>Human rights</b> work cannot expect too much <b>impact per dollar today</b>. This is inherently long-horizon, systems-level work.",
-        "warning | focus = gender_equality AND axis1 <= 2 AND axis9 <= 2 | <b>Gender equality</b> work cannot be both <b>domestic</b> and <b>apolitical</b>. Domestic gender work inherently engages political systems.",
-        "warning | focus = gender_equality AND axis3 <= 2 | <b>Gender equality</b> work cannot be too focused on <b>impact per dollar today</b>. This is structural, long-term work.",
-        "warning | focus = peace_conflict AND axis3 <= 2 | <b>Peace and conflict resolution</b> cannot expect too much <b>impact per dollar today</b>. This work requires sustained, patient engagement.",
-        "warning | focus = peace_conflict AND axis2 >= 4 | <b>Peace and conflict resolution</b> cannot be too focused on <b>impact investing</b>. This space has limited investable opportunities.",
-        "warning | focus = food_agriculture AND axis9 <= 2 AND axis4 <= 2 | <b>Food security</b> work cannot be too <b>apolitical</b> and too focused on <b>direct action</b>, especially if not willing to be disruptive.",
-        "warning | focus = food_agriculture AND axis8 <= 2 AND axis9 <= 2 | <b>Food security</b> work that is both <b>non-disruptive</b> and <b>apolitical</b> may have limited systemic impact.",
-        "warning | focus = youth_child AND axis9 <= 2 AND axis4 <= 2 | <b>Youth and child development</b> cannot be too <b>apolitical</b> and too focused on <b>direct action</b>, especially if not willing to be disruptive.",
-        "warning | focus = youth_child AND axis8 <= 2 AND axis9 <= 2 | <b>Youth and child development</b> work that is both <b>non-disruptive</b> and <b>apolitical</b> may have limited systemic impact.",
-        "warning | focus = philanthropy_infrastructure AND axis8 >= 4 | <b>Philanthropy infrastructure</b> work cannot be too <b>disruptive</b>. This space relies on institutional trust and relationships.",
-        "warning | focus = faith_based AND axis10 >= 4 | <b>Faith-based</b> work cannot be too <b>secular</b>. The faith dimension is central to this focus area.",
-        "warning | focus = civic_democracy AND axis10 <= 2 | <b>Civic engagement and democracy</b> work cannot be too <b>religious</b> if you are domestic. Separation of church and state is a core principle.",
-        "warning | focus = civic_democracy AND axis9 <= 2 | <b>Civic engagement and democracy</b> work cannot be too <b>apolitical</b>. This is inherently political work.",
-        "warning | focus = mental_health AND axis9 >= 4 AND axis4 <= 2 | <b>Mental health</b> work cannot be both <b>political</b> and focused on <b>direct action</b>. Effective mental health interventions require clinical, not political, approaches.",
-        "warning | focus = aging_longevity AND axis6 >= 4 | <b>Aging and longevity</b>: not very many <b>established actors</b> in this emerging space. Consider supporting newer organizations.",
-        "warning | focus = ai_ethics AND axis6 >= 4 | <b>AI and technology ethics</b>: not very many <b>established actors</b> in this rapidly evolving space. Consider supporting newer organizations.",
-        "warning | focus = democracy_information AND axis9 <= 2 | <b>Media and information integrity</b> work cannot be 100% <b>apolitical</b>. Information ecosystems are inherently intertwined with political dynamics.",
-        "warning | focus = water_sanitation AND axis9 >= 4 AND axis4 <= 2 | <b>Water and sanitation</b> work cannot be both <b>political</b> and focused on <b>direct action</b>. Effective WASH programs require technical, not political, approaches.",
-        "warning | focus = climate_environment AND axis3 <= 2 AND axis1 >= 4 | <b>Global</b> climate work focused only on <b>impact per dollar today</b> may have limited scale impact. Consider systems-change approaches.",
-        "warning | focus = arts_culture AND axis3 <= 2 | <b>Arts and culture</b> outcomes are difficult to measure in terms of <b>impact per dollar today</b>. Consider adjusting expectations.",
-        "warning | focus = humanitarian AND axis3 >= 4 | <b>Humanitarian relief</b> is inherently about immediate response. <b>Systemic change</b> in this space requires a fundamentally different type of organization.",
-        "warning | axis1 >= 4 AND axis5 <= 2 AND amount < 1000000 | <b>Small dollars</b> funding <b>global grassroots</b> work is an extremely difficult combination. Consider narrowing geographic scope or increasing organizational scale.",
-        "error | amount < 1000000 AND axis1 >= 4 AND axis3 >= 4 AND axis4 >= 4 | <b>Global systems change</b> with high <b>field building</b> at <b>under $1M/year</b> is an extremely challenging combination."
-    ];
-    var defaultRules = defaultRulesArr.join("\n");
+var VN = {
+“amount”: “GIVING AMOUNT”,
+“focus”: “FOCUS AREA”,
+“axis1”: “GEOGRAPHIC SCOPE”,
+“axis2”: “CAPITAL APPROACH”,
+“axis3”: “IMPACT HORIZON”,
+“axis4”: “ACTION MODE”,
+“axis5”: “ORGANIZATIONAL SCALE”,
+“axis6”: “MATURITY”,
+“axis7”: “OPERATIONAL STYLE”,
+“axis8”: “DISRUPTION LEVEL”,
+“axis9”: “POLITICAL ORIENTATION”,
+“axis10”: “FAITH ORIENTATION”
+};
 
-    var currentRules = [];
+var currentRules = [];
 
-    function parseAmount(str) {
-        if (!str) return 0;
-        str = str.replace(/[$,\s]/g, "").toUpperCase();
-        if (str.indexOf("M") >= 0) return parseFloat(str.replace("M", "")) * 1000000;
-        if (str.indexOf("K") >= 0) return parseFloat(str.replace("K", "")) * 1000;
-        return parseFloat(str) || 0;
-    }
+function parseAmount(s) {
+if (!s) return 0;
+s = s.replace(/[$,\s]/g, “”).toUpperCase();
+if (s.indexOf(“M”) >= 0) return parseFloat(s.replace(“M”, “”)) * 1000000;
+if (s.indexOf(“K”) >= 0) return parseFloat(s.replace(“K”, “”)) * 1000;
+return parseFloat(s) || 0;
+}
 
-    function parseRules(text) {
-        var lines = text.split("\n");
-        var rules = [];
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (!line) continue;
-            var parts;
-            if (line.indexOf("\t") >= 0) { parts = line.split("\t"); }
-            else { parts = line.split("|"); }
-            if (parts.length < 3) continue;
-            var severity = parts[0].trim().toLowerCase();
-            var condition = parts[1].trim();
-            var message = parts.slice(2).join(" ").trim();
-            if (severity !== "warning" && severity !== "error") continue;
-            var referencedAxes = [];
-            var varKeys = ["axis10","axis1","axis2","axis3","axis4","axis5","axis6","axis7","axis8","axis9","amount","focus"];
-            for (var v = 0; v < varKeys.length; v++) {
-                if (condition.indexOf(varKeys[v]) >= 0) referencedAxes.push(varKeys[v]);
-            }
-            rules.push({ severity: severity, condition: condition, message: message, axes: referencedAxes });
-        }
-        return rules;
-    }
+function parseRules(text) {
+var lines = text.split(”\n”);
+var rules = [];
+for (var i = 0; i < lines.length; i++) {
+var line = lines[i].trim();
+if (!line) continue;
+var parts;
+if (line.indexOf(”\t”) >= 0) parts = line.split(”\t”);
+else parts = line.split(”|”);
+if (parts.length < 3) continue;
+var sev = parts[0].trim().toLowerCase();
+var cond = parts[1].trim();
+var msg = parts.slice(2).join(” “).trim();
+if (sev !== “warning” && sev !== “error”) continue;
+var axes = [];
+var keys = [“axis10”,“axis1”,“axis2”,“axis3”,“axis4”,“axis5”,“axis6”,“axis7”,“axis8”,“axis9”,“amount”,“focus”];
+for (var k = 0; k < keys.length; k++) {
+if (cond.indexOf(keys[k]) >= 0) axes.push(keys[k]);
+}
+rules.push({severity: sev, condition: cond, message: msg, axes: axes});
+}
+return rules;
+}
 
-    function evaluateCondition(condition, values) {
-        var orParts = condition.split(/\s+OR\s+/);
-        for (var o = 0; o < orParts.length; o++) {
-            var andParts = orParts[o].split(/\s+AND\s+/);
-            var allTrue = true;
-            for (var a = 0; a < andParts.length; a++) {
-                if (!evaluateSingle(andParts[a].trim(), values)) { allTrue = false; break; }
-            }
-            if (allTrue) return true;
-        }
-        return false;
-    }
+function evalCond(cond, vals) {
+var ors = cond.split(/\s+OR\s+/);
+for (var o = 0; o < ors.length; o++) {
+var ands = ors[o].split(/\s+AND\s+/);
+var ok = true;
+for (var a = 0; a < ands.length; a++) {
+if (!evalOne(ands[a].trim(), vals)) { ok = false; break; }
+}
+if (ok) return true;
+}
+return false;
+}
 
-    function evaluateSingle(expr, values) {
-        var operators = [">=","<=","!=","=",">","<"];
-        for (var i = 0; i < operators.length; i++) {
-            var op = operators[i];
-            var idx = expr.indexOf(op);
-            if (idx >= 0) {
-                var left = expr.substring(0, idx).trim();
-                var right = expr.substring(idx + op.length).trim();
-                var leftVal = values[left] !== undefined ? values[left] : left;
-                var rightVal = values[right] !== undefined ? values[right] : right;
-                var leftNum = parseFloat(leftVal);
-                var rightNum = parseFloat(rightVal);
-                if (!isNaN(leftNum) && !isNaN(rightNum)) {
-                    switch(op) {
-                        case ">=": return leftNum >= rightNum;
-                        case "<=": return leftNum <= rightNum;
-                        case "!=": return leftNum !== rightNum;
-                        case "=": return leftNum === rightNum;
-                        case ">": return leftNum > rightNum;
-                        case "<": return leftNum < rightNum;
-                    }
-                } else {
-                    switch(op) {
-                        case "=": return String(leftVal) === String(rightVal);
-                        case "!=": return String(leftVal) !== String(rightVal);
-                        default: return false;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+function evalOne(expr, vals) {
+var ops = [”>=”,”<=”,”!=”,”=”,”>”,”<”];
+for (var i = 0; i < ops.length; i++) {
+var idx = expr.indexOf(ops[i]);
+if (idx >= 0) {
+var L = expr.substring(0, idx).trim();
+var R = expr.substring(idx + ops[i].length).trim();
+var lv = vals[L] !== undefined ? vals[L] : L;
+var rv = vals[R] !== undefined ? vals[R] : R;
+var ln = parseFloat(lv);
+var rn = parseFloat(rv);
+if (!isNaN(ln) && !isNaN(rn)) {
+switch(ops[i]) {
+case “>=”: return ln >= rn;
+case “<=”: return ln <= rn;
+case “!=”: return ln !== rn;
+case “=”: return ln === rn;
+case “>”: return ln > rn;
+case “<”: return ln < rn;
+}
+} else {
+if (ops[i] === “=”) return String(lv) === String(rv);
+if (ops[i] === “!=”) return String(lv) !== String(rv);
+return false;
+}
+}
+}
+return false;
+}
 
-    function getValues() {
-        var vals = {};
-        vals.amount = parseAmount(document.getElementById("amount").value);
-        vals.focus = document.getElementById("focus").value;
-        for (var i = 1; i <= 10; i++) vals["axis" + i] = parseInt(document.getElementById("axis" + i).value);
-        return vals;
-    }
+function getVals() {
+var v = {};
+v.amount = parseAmount(document.getElementById(“amount”).value);
+v.focus = document.getElementById(“focus”).value;
+for (var i = 1; i <= 10; i++) v[“axis” + i] = parseInt(document.getElementById(“a” + i).value);
+return v;
+}
 
-    function updateFeedback() {
-        var values = getValues();
-        var container = document.getElementById("feedback-container");
-        var amountInput = document.getElementById("amount");
-        var amountError = document.getElementById("amount-error");
-        var amountVal = values.amount;
-        if (amountInput.value.trim() !== "" && amountVal > 0 && amountVal < 500000) {
-            amountInput.classList.add("error-input");
-            amountError.classList.add("visible");
-        } else {
-            amountInput.classList.remove("error-input");
-            amountError.classList.remove("visible");
-        }
-        for (var c = 1; c <= 10; c++) document.getElementById("axis" + c + "-warnings").innerHTML = "";
-        var triggered = [];
-        for (var r = 0; r < currentRules.length; r++) {
-            var rule = currentRules[r];
-            if (evaluateCondition(rule.condition, values)) {
-                triggered.push(rule);
-                for (var ax = 0; ax < rule.axes.length; ax++) {
-                    var axisId = rule.axes[ax];
-                    if (axisId.indexOf("axis") === 0) {
-                        var warnContainer = document.getElementById(axisId + "-warnings");
-                        if (warnContainer) {
-                            var div = document.createElement("div");
-                            div.className = "axis-inline-warning " + rule.severity;
-                            div.innerHTML = rule.message;
-                            warnContainer.appendChild(div);
-                        }
-                    }
-                }
-            }
-        }
-        var html = '<h2>Strategic Feedback</h2>';
-        if (triggered.length === 0) {
-            html += '<div class="feedback-empty"><span class="check">&#10003;</span>No strategic tensions detected. Adjust your inputs to explore tradeoffs.</div>';
-        } else {
-            var warnings = 0, errors = 0;
-            for (var t = 0; t < triggered.length; t++) { if (triggered[t].severity === "warning") warnings++; else errors++; }
-            html += '<div class="feedback-count">';
-            if (errors > 0) html += '<span class="err-count">' + errors + ' incompatibilit' + (errors === 1 ? 'y' : 'ies') + '</span>';
-            if (errors > 0 && warnings > 0) html += ' &middot; ';
-            if (warnings > 0) html += '<span class="warn-count">' + warnings + ' tension' + (warnings === 1 ? '' : 's') + '</span>';
-            html += '</div>';
-            for (var t2 = 0; t2 < triggered.length; t2++) {
-                var rule2 = triggered[t2];
-                var label = rule2.severity === "error" ? "Incompatibility" : "Tension";
-                var axisLabels = [];
-                for (var a3 = 0; a3 < rule2.axes.length; a3++) {
-                    if (varNames[rule2.axes[a3]]) axisLabels.push('<strong>' + varNames[rule2.axes[a3]] + '</strong>');
-                }
-                html += '<div class="feedback-item ' + rule2.severity + '">';
-                html += '<div class="feedback-item-header">&#9888; ' + label + '</div>';
-                if (axisLabels.length > 0) html += '<div style="font-size:0.78rem;margin-bottom:0.3rem;color:var(--text-secondary)">' + axisLabels.join(' &middot; ') + '</div>';
-                html += rule2.message + '</div>';
-            }
-        }
-        container.innerHTML = html;
-    }
+function doSlider(n) {
+var s = document.getElementById(“a” + n);
+var d = document.getElementById(“v” + n);
+if (s && d) d.textContent = s.value;
+doUpdate();
+}
 
-    function updateSlider(sliderId) {
-        var slider = document.getElementById(sliderId);
-        if (!slider) return;
-        var valueDisplay = document.getElementById(sliderId + "-value");
-        var value = slider.value, min = slider.min, max = slider.max;
-        var progress = ((value - min) / (max - min)) * 100;
-        slider.style.setProperty("--progress", progress + "%");
-        if (valueDisplay) valueDisplay.textContent = value;
-    }
+function doUpdate() {
+var vals = getVals();
+var ai = document.getElementById(“amount”);
+var ae = document.getElementById(“amount-error”);
+var amt = vals.amount;
+if (ai.value.trim() !== “” && amt > 0 && amt < 500000) {
+ai.style.borderColor = “#B84444”;
+ae.className = “amount-error visible”;
+} else {
+ai.style.borderColor = “#d0d0d0”;
+ae.className = “amount-error”;
+}
+for (var c = 1; c <= 10; c++) document.getElementById(“w” + c).innerHTML = “”;
+var triggered = [];
+for (var r = 0; r < currentRules.length; r++) {
+var rule = currentRules[r];
+if (evalCond(rule.condition, vals)) {
+triggered.push(rule);
+for (var ax = 0; ax < rule.axes.length; ax++) {
+var aid = rule.axes[ax];
+if (aid.indexOf(“axis”) === 0) {
+var num = aid.replace(“axis”, “”);
+var wc = document.getElementById(“w” + num);
+if (wc) {
+var d = document.createElement(“div”);
+d.className = “axis-inline-warning “ + rule.severity;
+d.innerHTML = rule.message;
+wc.appendChild(d);
+}
+}
+}
+}
+}
+var fb = document.getElementById(“fb”);
+var h = “<h2>Strategic Feedback</h2>”;
+if (triggered.length === 0) {
+h += “<div class="feedback-empty">No strategic tensions detected. Adjust your inputs to explore tradeoffs.</div>”;
+} else {
+var wn = 0, en = 0;
+for (var t = 0; t < triggered.length; t++) { if (triggered[t].severity === “warning”) wn++; else en++; }
+h += “<div class="feedback-count">”;
+if (en > 0) h += “<span class="err-count">” + en + (en === 1 ? “ incompatibility” : “ incompatibilities”) + “</span>”;
+if (en > 0 && wn > 0) h += “ · “;
+if (wn > 0) h += “<span class="warn-count">” + wn + “ tension” + (wn === 1 ? “” : “s”) + “</span>”;
+h += “</div>”;
+for (var t2 = 0; t2 < triggered.length; t2++) {
+var ru = triggered[t2];
+var lb = ru.severity === “error” ? “Incompatibility” : “Tension”;
+var al = [];
+for (var a3 = 0; a3 < ru.axes.length; a3++) {
+if (VN[ru.axes[a3]]) al.push(”<strong>” + VN[ru.axes[a3]] + “</strong>”);
+}
+h += “<div class="feedback-item “ + ru.severity + “">”;
+h += “<div class="feedback-item-header">⚠ “ + lb + “</div>”;
+if (al.length > 0) h += “<div style="font-size:0.78rem;margin-bottom:0.3rem;color:#5A5A5A">” + al.join(” · “) + “</div>”;
+h += ru.message + “</div>”;
+}
+}
+fb.innerHTML = h;
+}
 
-    function onSliderChange(sliderId) {
-        updateSlider(sliderId);
-        updateFeedback();
-    }
+function toggleRules() {
+var c = document.getElementById(“rc”);
+var i = document.getElementById(“ti”);
+if (c.className.indexOf(“open”) >= 0) {
+c.className = “rules-content”;
+i.className = “toggle-icon”;
+} else {
+c.className = “rules-content open”;
+i.className = “toggle-icon open”;
+}
+}
 
-    function initSliders() {
-        for (var i = 1; i <= 10; i++) {
-            var sliderId = "axis" + i;
-            updateSlider(sliderId);
-            (function(id) {
-                var el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener("input", function() { onSliderChange(id); });
-                    el.addEventListener("change", function() { onSliderChange(id); });
-                }
-            })(sliderId);
-        }
-    }
+function loadRules() {
+var input = document.getElementById(“ri”).value;
+var status = document.getElementById(“rs”);
+try {
+currentRules = parseRules(input);
+status.textContent = “Loaded “ + currentRules.length + “ rules”;
+status.className = “rules-status success”;
+doUpdate();
+setTimeout(function() { status.textContent = “”; }, 3000);
+} catch (e) {
+status.textContent = “Error parsing rules”;
+status.className = “rules-status error”;
+}
+}
 
-    function toggleRules() {
-        var content = document.getElementById("rules-content");
-        var icon = document.getElementById("toggle-icon");
-        if (content.className.indexOf("open") >= 0) { content.className = "rules-content"; icon.className = "toggle-icon"; }
-        else { content.className = "rules-content open"; icon.className = "toggle-icon open"; }
-    }
+function resetRules() {
+document.getElementById(“ri”).value = DR;
+loadRules();
+}
 
-    function loadRules() {
-        var input = document.getElementById("rules-input").value;
-        var status = document.getElementById("rules-status");
-        try {
-            currentRules = parseRules(input);
-            status.textContent = "Loaded " + currentRules.length + " rules";
-            status.className = "rules-status success";
-            updateFeedback();
-            setTimeout(function() { status.textContent = ""; }, 3000);
-        } catch (e) { status.textContent = "Error parsing rules: " + e.message; status.className = "rules-status error"; }
-    }
-
-    function resetRules() { document.getElementById("rules-input").value = defaultRules; loadRules(); }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("rules-input").value = defaultRules;
-        initSliders();
-        loadRules();
-        var amountEl = document.getElementById("amount");
-        var focusEl = document.getElementById("focus");
-        if (amountEl) {
-            amountEl.addEventListener("input", updateFeedback);
-            amountEl.addEventListener("change", updateFeedback);
-        }
-        if (focusEl) {
-            focusEl.addEventListener("change", updateFeedback);
-        }
-    });
+window.onload = function() {
+document.getElementById(“ri”).value = DR;
+for (var i = 1; i <= 10; i++) doSlider(i);
+loadRules();
+};
 </script>
-```
 
 </body>
 </html>
